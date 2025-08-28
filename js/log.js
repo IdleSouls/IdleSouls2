@@ -1,12 +1,15 @@
 let isResizing = false;
 let lastDownY = 0;
-const defaultHeight = 90;  // altezza predefinita per 3 entry
-const maxHeight = 300;  // massimo per 20 entry
-const minHeight = 120;  // altezza minima (ad esempio per 3-4 entry)
+const defaultHeight = 90;  // altezza predefinita per 3 entry (90px)
+const maxHeight = 300;  // massimo per 20 entry (300px)
+const minHeight = 120;  // minimo per 3 entry (120px)
 
 // Seleziona il contenitore e la linea di ridimensionamento
 const logContainer = document.getElementById('log');
 const logResizer = document.getElementById('log-resizer');
+
+// Impostazione iniziale per la dimensione predefinita
+logContainer.style.height = defaultHeight + 'px';
 
 // Inizio del ridimensionamento
 logResizer.addEventListener('mousedown', (e) => {
