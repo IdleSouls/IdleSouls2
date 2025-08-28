@@ -107,14 +107,11 @@ body {
   background-color: #0d5db6;
 }
 
-/* Log in fondo */
 #log {
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
-  max-height: 180px;
-  overflow-y: auto;
   background-color: rgba(0, 0, 50, 0.9);
   color: #ffd700;
   padding: 10px 20px;
@@ -123,16 +120,21 @@ body {
   border-top: 3px solid #ffd700;
   box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.7);
   z-index: 100;
+
+  /* Comportamento di ridimensionamento */
+  resize: vertical;
+  overflow-y: auto;
+
+  /* Altezza configurabile */
+  min-height: 2em;        /* circa 1 riga */
+  max-height: 15em;       /* circa 10 righe */
+  height: 6em;            /* default ~3 righe */
 }
 
 #log div {
   margin-bottom: 6px;
   line-height: 1.4;
-}
-
-#log div:nth-child(odd),
-#log div:nth-child(even) {
-  background-color: rgba(0, 0, 90, 0.5);
   padding: 3px 6px;
   border-radius: 3px;
+  background-color: rgba(0, 0, 90, 0.5);
 }
