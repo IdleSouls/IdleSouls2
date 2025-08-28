@@ -1,4 +1,113 @@
-/* Log eventi in basso */
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Corpo e layout principale */
+body {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+  background-color: #0a0a2a;
+  color: white;
+  overflow: hidden;
+}
+
+/* Colonne principali */
+#leftColumn,
+#centerColumn,
+#rightColumn {
+  padding: 20px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+#leftColumn {
+  width: 220px;
+  background-color: #0d1b2a;
+  border-right: 2px solid #ffd700;
+}
+
+#leftColumn h1 {
+  color: #ffd700;
+  font-size: 2.5em;
+  margin-bottom: 20px;
+}
+
+#navMenu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.navButton {
+  background-color: #1a73e8;
+  border: none;
+  color: white;
+  font-size: 1.1em;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.2s;
+}
+
+.navButton:hover {
+  background-color: #0d5db6;
+}
+
+/* Colonna centrale */
+#centerColumn {
+  flex-grow: 1;
+  background-color: #1b263b;
+  justify-content: center;
+  align-items: center;
+  overflow-y: auto;
+}
+
+#mainContent {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Colonna destra */
+#rightColumn {
+  width: 220px;
+  background-color: #0d1b2a;
+  border-left: 2px solid #ffd700;
+  color: #ffd700;
+  font-size: 1.5em;
+}
+
+/* Conteggio risorse */
+#resourceCount {
+  margin-top: 10px;
+}
+
+/* Pulsante Focus */
+#focusButton {
+  padding: 15px 30px;
+  background-color: #1a73e8;
+  border: none;
+  color: white;
+  font-size: 1.5em;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+#focusButton:hover {
+  background-color: #0d5db6;
+}
+
+/* Log in fondo */
 #log {
   position: fixed;
   bottom: 0;
@@ -21,14 +130,9 @@
   line-height: 1.4;
 }
 
-#log div:nth-child(odd) {
-  background-color: rgba(0, 0, 70, 0.7);
-  padding: 3px 6px;
-  border-radius: 3px;
-}
-
+#log div:nth-child(odd),
 #log div:nth-child(even) {
-  background-color: rgba(0, 0, 90, 0.7);
+  background-color: rgba(0, 0, 90, 0.5);
   padding: 3px 6px;
   border-radius: 3px;
 }
