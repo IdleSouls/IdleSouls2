@@ -1,95 +1,34 @@
-/* Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-/* Corpo e layout principale */
-body {
-  display: flex;
-  height: 100vh;
-  font-family: Arial, sans-serif;
-  background-color: #0a0a2a;
-  color: white;
-  overflow: hidden;
-}
-
-/* Colonne */
-#leftColumn, #centerColumn, #rightColumn {
-  padding: 20px;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Colonna sinistra (menu + titolo) */
-#leftColumn {
-  width: 220px;
-  background-color: #0d1b2a;
-  border-right: 2px solid #ffd700;
-}
-
-#leftColumn h1 {
-  color: #ffd700;
-  font-size: 2.5em;
-  margin-bottom: 20px;
-  user-select: none;
-}
-
-#navMenu {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.navButton {
-  background-color: #1a73e8;
-  border: none;
-  color: white;
-  font-size: 1.1em;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  text-align: left;
+/* Log eventi in basso */
+#log {
+  position: fixed;
+  bottom: 0;
+  left: 0;
   width: 100%;
-  transition: background-color 0.2s;
-}
-
-.navButton:hover {
-  background-color: #0d5db6;
-}
-
-/* Colonna centrale (contenuto pagina) */
-#centerColumn {
-  flex-grow: 1;
-  background-color: #1b263b;
-  justify-content: center;
-  align-items: center;
+  max-height: 180px;
   overflow-y: auto;
-}
-
-/* Contenuto principale dentro centro */
-#mainContent {
-  width: 100%;
-  max-width: 600px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Colonna destra (inventario) */
-#rightColumn {
-  width: 220px;
-  background-color: #0d1b2a;
-  border-left: 2px solid #ffd700;
+  background-color: rgba(0, 0, 50, 0.9);
   color: #ffd700;
-  font-size: 1.5em;
-  user-select: none;
-  justify-content: flex-start;
+  padding: 10px 20px;
+  font-family: 'Courier New', monospace;
+  font-size: 1.1em;
+  border-top: 3px solid #ffd700;
+  box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.7);
+  z-index: 100;
 }
 
-/* Contatore risorse */
-#resourceCount {
-  margin-top: 10px;
+#log div {
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+
+#log div:nth-child(odd) {
+  background-color: rgba(0, 0, 70, 0.7);
+  padding: 3px 6px;
+  border-radius: 3px;
+}
+
+#log div:nth-child(even) {
+  background-color: rgba(0, 0, 90, 0.7);
+  padding: 3px 6px;
+  border-radius: 3px;
 }
