@@ -2,6 +2,7 @@
 
 let isResizing = false;
 let lastDownY = 0;
+let logHeight = 6;  // Impostiamo una dimensione iniziale della finestra di log
 
 // Aggiungere la logica di ridimensionamento per la finestra del log
 const logResizer = document.getElementById('log-resizer');
@@ -21,9 +22,10 @@ document.addEventListener('mousemove', (e) => {
   const newHeight = logContainer.offsetHeight - offset; // Calcola la nuova altezza della finestra del log
 
   // Imposta il nuovo valore di altezza, rispettando i limiti
-  if (newHeight >= 1 && newHeight <= 250) {  // Limite di altezza tra 1px e 250px
+  if (newHeight >= 30 && newHeight <= 250) {  // Limite di altezza tra 30px e 250px
     logContainer.style.height = newHeight + 'px';
     lastDownY = e.clientY;  // Aggiorna la posizione dell'ultima Y
+    logHeight = newHeight; // Salva la dimensione attuale
   }
 });
 
@@ -36,7 +38,6 @@ document.addEventListener('mouseup', () => {
 // Funzione per aggiungere voci al log
 function updateLog(message) {
     const logContainer = document.getElementById('log');
-    const logResizer = document.getElementById('log-resizer');
 
     // Crea un nuovo elemento div per il log
     const newLog = document.createElement('div');
