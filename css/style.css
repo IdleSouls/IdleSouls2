@@ -1,33 +1,33 @@
-/* Reset base */
+/* Reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-html, body {
-  height: 100%;
-  font-family: Arial, sans-serif;
-  background-color: #0a0a2a;
-  color: white;
-}
-
-/* Container principale con 3 colonne */
+/* Corpo e layout principale */
 body {
   display: flex;
   height: 100vh;
+  font-family: Arial, sans-serif;
+  background-color: #0a0a2a;
+  color: white;
   overflow: hidden;
 }
 
-/* COLONNA SINISTRA */
+/* Colonne */
+#leftColumn, #centerColumn, #rightColumn {
+  padding: 20px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Colonna sinistra (menu + titolo) */
 #leftColumn {
   width: 220px;
   background-color: #0d1b2a;
   border-right: 2px solid #ffd700;
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  /* Per far stare titolo e menu in colonna */
 }
 
 #leftColumn h1 {
@@ -37,7 +37,6 @@ body {
   user-select: none;
 }
 
-/* Menu verticale */
 #navMenu {
   display: flex;
   flex-direction: column;
@@ -61,72 +60,36 @@ body {
   background-color: #0d5db6;
 }
 
-/* COLONNA CENTRALE */
+/* Colonna centrale (contenuto pagina) */
 #centerColumn {
   flex-grow: 1;
   background-color: #1b263b;
-  display: flex;
-  justify-content: center; /* centro orizzontale */
-  align-items: center;    /* centro verticale */
-  padding: 20px;
+  justify-content: center;
+  align-items: center;
+  overflow-y: auto;
 }
 
-/* COLONNA DESTRA */
+/* Contenuto principale dentro centro */
+#mainContent {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Colonna destra (inventario) */
 #rightColumn {
   width: 220px;
   background-color: #0d1b2a;
   border-left: 2px solid #ffd700;
-  padding: 20px;
   color: #ffd700;
   font-size: 1.5em;
-  display: flex;
-  flex-direction: column;
   user-select: none;
+  justify-content: flex-start;
 }
 
-/* Pulsante Focus */
-#focusButton {
-  padding: 15px 30px;
-  background-color: #1a73e8;
-  border: none;
-  color: white;
-  font-size: 1.5em;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-#focusButton:hover {
-  background-color: #0d5db6;
-}
-
-/* Log in basso */
-#log {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  max-height: 200px;
-  overflow-y: auto;
-  background-color: rgba(0, 0, 50, 0.9);
-  color: #ffd700;
-  font-family: 'Courier New', monospace;
-  font-size: 1.2em;
-  padding: 15px;
-  border-top: 3px solid #ffd700;
-  box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.5);
-  z-index: 10;
-}
-
-#log div {
-  margin-bottom: 10px;
-  line-height: 1.5;
-}
-
-#log div:nth-child(odd) {
-  background-color: rgba(0, 0, 70, 0.8);
-}
-
-#log div:nth-child(even) {
-  background-color: rgba(0, 0, 80, 0.8);
+/* Contatore risorse */
+#resourceCount {
+  margin-top: 10px;
 }
