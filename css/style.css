@@ -112,23 +112,26 @@ body {
   bottom: 0;
   left: 0;
   width: 100%;
-  background-color: rgba(0, 0, 50, 0.9);
+  background-color: rgba(0, 0, 50, 0.95);
   color: #ffd700;
-  padding: 10px 20px;
   font-family: 'Courier New', monospace;
   font-size: 1.1em;
+  padding: 10px 20px;
   border-top: 3px solid #ffd700;
   box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.7);
   z-index: 100;
 
-  /* Comportamento di ridimensionamento */
+  /* Permette lo scroll e il resize */
   resize: vertical;
   overflow-y: auto;
 
-  /* Altezza configurabile */
-  min-height: 2em;        /* circa 1 riga */
-  max-height: 15em;       /* circa 10 righe */
+  /* Altezza regolabile */
+  min-height: 2em;        /* minimo 1 riga */
+  max-height: 15em;       /* massimo circa 10 righe */
   height: 6em;            /* default ~3 righe */
+
+  /* Per selezionare il testo del log */
+  user-select: text;
 }
 
 #log div {
