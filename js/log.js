@@ -62,7 +62,7 @@ function updateLog(message) {
         logContainer.style.height = logContainer.scrollHeight + 'px';  // Allunga la finestra del log se necessario
     }
 
-    // Se l'altezza è stata ridimensionata manualmente, mantieni quella altezza
+    // Mantieni l'altezza corrente senza forzare la dimensione predefinita
     if (currentHeight) {
         logContainer.style.height = currentHeight + 'px';
     }
