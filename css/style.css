@@ -123,8 +123,8 @@ body {
   z-index: 100;
   resize: vertical;
   overflow-y: auto;
-  min-height: 2em;
-  max-height: 15em;
+  min-height: 30px;  /* altezza minima */
+  max-height: 250px; /* altezza massima */
   height: 6em; /* default height */
 }
 
