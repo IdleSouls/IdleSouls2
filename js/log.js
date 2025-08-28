@@ -2,7 +2,7 @@ let isResizing = false;
 let lastDownY = 0;
 const defaultHeight = 90;  // altezza predefinita per 3 entry
 const maxHeight = 300;  // massimo per 20 entry
-const minHeight = 30;   // altezza minima
+const minHeight = 120;  // altezza minima (ad esempio per 3-4 entry)
 
 // Seleziona il contenitore e la linea di ridimensionamento
 const logContainer = document.getElementById('log');
@@ -19,8 +19,8 @@ logResizer.addEventListener('mousedown', (e) => {
 document.addEventListener('mousemove', (e) => {
   if (!isResizing) return;
 
-  const offset = e.clientY - lastDownY; // Calcola la differenza di posizione
-  let newHeight = logContainer.offsetHeight - offset; // Calcola la nuova altezza della finestra del log
+  const offset = lastDownY - e.clientY; // Cambia l'ordine per invertire il ridimensionamento
+  let newHeight = logContainer.offsetHeight + offset; // Calcola la nuova altezza della finestra del log
 
   // Limita l'altezza tra minHeight e maxHeight
   if (newHeight >= minHeight && newHeight <= maxHeight) {
