@@ -1,72 +1,94 @@
+/* Layout principale */
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+    font-family: 'Arial', sans-serif;
     background-color: #0a0a2a;
     color: #fff;
+    margin: 0;
+    padding: 0;
+}
+
+/* Colonne */
+#leftColumn, #centerColumn, #rightColumn {
+    padding: 20px;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+/* Colonna sinistra (menu navigazione) */
+#leftColumn {
+    width: 220px; /* larghezza fissa */
+    background-color: #0d1b2a;
+    border-right: 2px solid #ffd700;
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    align-items: flex-start;
 }
 
-/* Header */
-#header {
-    display: flex;
-    justify-content: space-between;
-    padding: 20px;
-    background-color: #0d1b2a;
-    border-bottom: 2px solid #ffd700;
-}
-
-#title {
-    font-size: 2.5em;
-    color: #ffd700;
-}
-
-#resourceCount {
-    font-size: 1.5em;
-    color: #ffd700;
-}
-
-/* Menu */
-#menu {
-    display: flex;
-    padding: 10px 20px;
-    background-color: #1b263b;
-    gap: 10px;
-}
-
-#menu button {
-    padding: 10px 20px;
-    background-color: #1a73e8;
-    border: none;
-    color: white;
-    font-size: 1em;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-#menu button:hover {
-    background-color: #0d5db6;
-}
-
-/* Centro */
+/* Colonna centrale (contenuto dinamico) */
 #centerColumn {
-    flex-grow: 1;
-    padding: 20px;
+    flex-grow: 1; /* riempie spazio disponibile */
     background-color: #1b263b;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     flex-direction: column;
 }
 
-#mainContent {
-    text-align: center;
+/* Colonna destra (inventario/valori) */
+#rightColumn {
+    width: 220px; /* larghezza fissa */
+    background-color: #0d1b2a;
+    border-left: 2px solid #ffd700;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
-/* Pulsante Focus dinamico */
+/* Titolo IdleSouls in alto a sinistra */
+#leftColumn h1 {
+    color: #ffd700;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+/* Menu navigazione sotto titolo */
+#navMenu {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+/* Pulsanti menu */
+.navButton {
+    padding: 10px 15px;
+    background-color: #1a73e8;
+    border: none;
+    color: white;
+    font-size: 1.1em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    width: 100%;
+    text-align: left;
+}
+
+.navButton:hover {
+    background-color: #0d5db6;
+}
+
+/* Conteggio risorse in alto a destra */
+#resourceCount {
+    font-size: 1.5em;
+    color: #ffd700;
+    margin-bottom: 20px;
+}
+
+/* Pulsante Focus nella colonna centrale */
 #focusButton {
-    margin-top: 20px;
     padding: 15px 30px;
     background-color: #1a73e8;
     border: none;
@@ -74,28 +96,30 @@ body {
     font-size: 1.5em;
     border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.2s;
+    align-self: center;
 }
 
 #focusButton:hover {
     background-color: #0d5db6;
 }
 
-/* Log */
+/* Log in basso a tutta larghezza */
 #log {
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
-    max-height: 200px;
-    overflow-y: auto;
     background-color: rgba(0, 0, 50, 0.9);
     color: #ffd700;
     padding: 15px;
     font-family: 'Courier New', monospace;
     font-size: 1.2em;
+    max-height: 200px;
+    overflow-y: auto;
     border-top: 3px solid #ffd700;
-    box-shadow: 0px -5px 10px rgba(0,0,0,0.5);
     z-index: 10;
+    box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.5);
 }
 
 #log div {
@@ -104,9 +128,9 @@ body {
 }
 
 #log div:nth-child(odd) {
-    background-color: rgba(0,0,70,0.8);
+    background-color: rgba(0, 0, 70, 0.8);
 }
 
 #log div:nth-child(even) {
-    background-color: rgba(0,0,80,0.8);
+    background-color: rgba(0, 0, 80, 0.8);
 }
