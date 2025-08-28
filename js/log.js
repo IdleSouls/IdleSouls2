@@ -1,27 +1,21 @@
-let logEntries = 0;
-
+// Funzione per aggiungere nuovi log
 function updateLog(message) {
   const logContainer = document.getElementById('log');
-  if (!logContainer) return;
+  console.log('Aggiungo log: ', message); // Debug: mostra cosa viene aggiunto al log
 
+  // Crea un nuovo elemento div per il log
   const newLog = document.createElement('div');
   newLog.textContent = message;
-  logContainer.appendChild(newLog); // aggiungi in fondo
 
-  logEntries++;
+  // Aggiungi il nuovo log all'inizio del contenitore (in basso, l'ultimo messaggio va sotto)
+  logContainer.appendChild(newLog);
 
-  // Auto espansione del log per i primi 3 messaggi
-  if (logEntries <= 3) {
-    const estimatedLineHeight = 22; // circa 1 riga in pixel
-    const basePadding = 40; // padding interno già presente
-    logContainer.style.height = `${estimatedLineHeight * logEntries + basePadding}px`;
+  // Aggiungi l'animazione per aumentare la dimensione del log
+  logContainer.style.height = `${Math.min(logContainer.scrollHeight, 15 * 18)}px`; // Limita l'altezza
+
+  // Limita il numero di log che vengono mostrati
+  const logItems = logContainer.getElementsByTagName('div');
+  if (logItems.length > 10) {
+    logContainer.removeChild(logItems[0]); // Rimuove i log più vecchi quando superano il limite
   }
-
-  // Mantieni massimo 10 messaggi
-  if (logContainer.children.length > 10) {
-    logContainer.removeChild(logContainer.firstChild);
-  }
-
-  // Scroll automatico verso il basso
-  logContainer.scrollTop = logContainer.scrollHeight;
 }
