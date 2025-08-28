@@ -1,6 +1,6 @@
 let isResizing = false;
 let lastDownY = 0;
-const defaultHeight = 100;  // altezza predefinita per 3 entry (90px)
+const defaultHeight = 120;  // altezza predefinita per 3 entry (90px)
 const maxHeight = 300;  // massimo per 20 entry (300px)
 const minHeight = 120;  // minimo per 3 entry (120px)
 
