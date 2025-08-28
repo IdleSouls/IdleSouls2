@@ -107,7 +107,19 @@ body {
   background-color: #0d5db6;
 }
 
-/* log.css */
+/* Linea di divisione per il ridimensionamento */
+#log-resizer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 10px;
+  background-color: #ffd700;
+  cursor: ns-resize;  /* Cursore che indica il ridimensionamento verticale */
+  z-index: 101;
+}
+
+/* Finestra del log */
 #log {
   position: fixed;
   bottom: 0;
@@ -125,30 +137,9 @@ body {
   /* Comportamento di ridimensionamento */
   resize: vertical;
   overflow-y: auto;
-  
+
   /* Altezza configurabile */
   min-height: 2em;        /* circa 1 riga */
   max-height: 15em;       /* circa 10 righe */
   height: 6em;            /* default ~3 righe */
 }
-
-#log div {
-  margin-bottom: 6px;
-  line-height: 1.4;
-  padding: 3px 6px;
-  border-radius: 3px;
-  background-color: rgba(0, 0, 90, 0.5);
-}
-
-/* Linea di divisione per il ridimensionamento */
-#log-resizer {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 10px;
-  background-color: #ffd700;
-  cursor: ns-resize;
-  z-index: 101;
-}
-
