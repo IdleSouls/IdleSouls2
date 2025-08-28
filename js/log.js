@@ -1,6 +1,6 @@
 let isResizing = false;
 let lastDownY = 0;
-let currentHeight = 4;  // Altezza predefinita per il log (iniziale)
+let currentHeight = 6;  // Altezza predefinita per il log (iniziale)
 const minHeight = 30;   // Altezza minima (ad esempio 30px)
 const maxHeight = 250;  // Altezza massima (ad esempio 250px)
 
@@ -63,9 +63,7 @@ function updateLog(message) {
     }
 
     // Mantieni l'altezza corrente senza forzare la dimensione predefinita
-    if (currentHeight) {
-        logContainer.style.height = currentHeight + 'px';
-    }
+    logContainer.style.height = currentHeight + 'px';
 
     // Assicurati che l'ultima entry sia sempre visibile in fondo
     logContainer.scrollTop = logContainer.scrollHeight;
@@ -74,7 +72,7 @@ function updateLog(message) {
 // Funzione di inizializzazione (opzionale per risistemare la finestra del log)
 function initializeLog() {
     const logContainer = document.getElementById('log');
-    logContainer.style.height = '6em';  // Imposta la finestra del log alla dimensione predefinita (6em)
+    logContainer.style.height = currentHeight + 'px';  // Imposta la finestra del log alla dimensione predefinita (6em)
     logContainer.style.transition = 'height 0.3s ease';
 }
 
