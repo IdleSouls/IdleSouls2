@@ -1,37 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IdleSouls</title>
-<link rel="stylesheet" href="css/style.css">
-</head>
 <body>
+    <!-- Colonna sinistra per il titolo e il menu -->
+    <div id="leftColumn">
+        <h1>IdleSouls</h1>
+        <nav id="navMenu">
+            <button class="navButton" data-section="meditation">Meditation</button>
+            <!-- Altri pulsanti menu in futuro -->
+        </nav>
+    </div>
 
-<!-- Header -->
-<div id="header">
-    <div id="title">IdleSouls</div>
-    <div id="resourceCount">Soul Fragments: 0</div>
-</div>
+    <!-- Colonna centrale per il contenuto dinamico -->
+    <div id="centerColumn">
+        <div id="mainContent">
+            <!-- Contenuto dinamico caricamento pagine -->
+        </div>
+    </div>
 
-<!-- Menu sezione -->
-<div id="menu">
-    <button class="navButton" data-section="meditation">Meditation</button>
-    <!-- altri pulsanti sezioni -->
-</div>
+    <!-- Colonna destra per inventario/valori -->
+    <div id="rightColumn">
+        <div id="resourceCount">Soul Fragments: 0</div>
+        <!-- Qui potrai aggiungere in futuro altri valori inventario -->
+    </div>
 
-<!-- Centro -->
-<div id="centerColumn">
-    <div id="mainContent"></div>
-</div>
+    <!-- Log degli eventi in basso -->
+    <div id="log"></div>
 
-<!-- Log in basso -->
-<div id="log"></div>
-
-<script src="js/mechanics.js"></script>
-<script src="js/game.js"></script>
-<script src="js/ui.js"></script>
-<script src="js/navigation.js"></script>
-
+    <!-- Inclusione file JS -->
+    <script src="js/mechanics.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/log.js"></script>
+    <script src="js/navigation.js"></script>
 </body>
-</html>
