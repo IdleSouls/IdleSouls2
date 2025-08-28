@@ -124,8 +124,8 @@ body {
   resize: vertical;
   overflow-y: auto;
   min-height: 30px;  /* altezza minima */
-  max-height: 250px; /* altezza massima */
-  height: 6em; /* default height */
+  max-height: 300px; /* massimo per 20 entry */
+  height: 90px; /* altezza predefinita per 3 entry */
 }
 
 #log div {
