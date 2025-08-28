@@ -11,8 +11,8 @@ function updateLog(message) {
     const newLog = document.createElement('div');
     newLog.textContent = message;
 
-    // Aggiungi il nuovo log all'inizio del contenitore
-    logContainer.appendChild(newLog);
+    // Aggiungi il nuovo log in cima
+    logContainer.insertBefore(newLog, logContainer.firstChild);
 
     // Assicura che la finestra del log si allunghi solo se necessario
     if (logContainer.offsetHeight < logContainer.scrollHeight) {
@@ -22,8 +22,11 @@ function updateLog(message) {
     // Limita il numero di log che vengono mostrati (esempio: massimo 10 log)
     const logItems = logContainer.getElementsByTagName('div');
     if (logItems.length > 10) {
-        logContainer.removeChild(logItems[0]);  // Rimuovi il primo log
+        logContainer.removeChild(logItems[logItems.length - 1]);  // Rimuovi l'ultimo log (meno recente)
     }
+
+    // Assicurati che l'ultima entry sia sempre visibile in fondo
+    logContainer.scrollTop = logContainer.scrollHeight;
 }
 
 // Gestire il ridimensionamento del log
@@ -47,7 +50,7 @@ document.addEventListener('mousemove', (e) => {
   const newHeight = logContainer.offsetHeight - offset;
   
   // Imposta il nuovo valore di altezza mantenendo i limiti
-  if (newHeight >= 1 && newHeight <= 250) {  // tra 1px e 250px (10 righe)
+  if (newHeight >= 1 && newHeight <= 250) {  // tra 1px e 250px (circa 10 righe)
     logContainer.style.height = newHeight + 'px';
     lastDownY = e.clientY;  // aggiorna la posizione dell'ultima Y
   }
