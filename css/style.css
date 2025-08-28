@@ -123,8 +123,8 @@ body {
   z-index: 100;
   resize: vertical;
   overflow-y: auto;
-  min-height: 90px;  /* Minimo per 3 entry */
-  max-height: 200px;  /* Massimo per 10 entry */
+  min-height: 60px;  /* Modificato per 2 entry */
+  max-height: 90px;  /* Massimo per 3 entry */
   height: 60px; /* Altezza predefinita per 2 entry */
 }
 
