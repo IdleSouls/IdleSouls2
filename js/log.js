@@ -1,73 +1,64 @@
+// log.js: Gestisce l'aggiunta di voci al log e la gestione del ridimensionamento della finestra del log
+
 let isResizing = false;
 let lastDownY = 0;
-const defaultHeight = 90;  // altezza predefinita per 3 entry (90px)
-const maxHeight = 300;  // massimo per 20 entry (300px)
-const minHeight = 150;  // minimo per 3 entry (120px)
+let logHeight = 90;  // Impostiamo una dimensione iniziale della finestra di log (90px per 3 entry)
 
-// Seleziona il contenitore e la linea di ridimensionamento
-const logContainer = document.getElementById('log');
+// Aggiungere la logica di ridimensionamento per la finestra del log
 const logResizer = document.getElementById('log-resizer');
+const logContainer = document.getElementById('log');
 
-// Impostazione iniziale per la dimensione predefinita
-logContainer.style.height = defaultHeight + 'px';
+// Imposta la larghezza iniziale della finestra del log
+logContainer.style.height = `${logHeight}px`;  // Altezza iniziale
 
-// Inizio del ridimensionamento
 logResizer.addEventListener('mousedown', (e) => {
+  // Inizio del ridimensionamento
   isResizing = true;
   lastDownY = e.clientY;
-  document.documentElement.style.cursor = 'ns-resize'; // Cambia il cursore quando si clicca sulla linea di ridimensionamento
+  document.documentElement.style.cursor = 'ns-resize';  // Cambia il cursore quando si clicca sulla linea di ridimensionamento
 });
 
-// Durante il ridimensionamento
 document.addEventListener('mousemove', (e) => {
   if (!isResizing) return;
 
-  const offset = lastDownY - e.clientY; // Cambia l'ordine per invertire il ridimensionamento
-  let newHeight = logContainer.offsetHeight + offset; // Calcola la nuova altezza della finestra del log
+  const offset = e.clientY - lastDownY; // Calcola la differenza di posizione
+  const newHeight = logContainer.offsetHeight - offset; // Calcola la nuova altezza della finestra del log
 
-  // Limita l'altezza tra minHeight e maxHeight
-  if (newHeight >= minHeight && newHeight <= maxHeight) {
+  // Imposta il nuovo valore di altezza, rispettando i limiti
+  if (newHeight >= 150 && newHeight <= 300) {  // Limite di altezza tra 150px e 300px
     logContainer.style.height = newHeight + 'px';
     lastDownY = e.clientY;  // Aggiorna la posizione dell'ultima Y
+    logHeight = newHeight;  // Salva la dimensione attuale
   }
 });
 
-// Fine del ridimensionamento
 document.addEventListener('mouseup', () => {
+  // Fine del ridimensionamento
   isResizing = false;
-  document.documentElement.style.cursor = 'auto'; // Ripristina il cursore normale
+  document.documentElement.style.cursor = 'auto';  // Ripristina il cursore normale
 });
 
 // Funzione per aggiungere voci al log
 function updateLog(message) {
-  const logContainer = document.getElementById('log');
+    const logContainer = document.getElementById('log');
 
-  // Crea un nuovo elemento div per il log
-  const newLog = document.createElement('div');
-  newLog.textContent = message;
+    // Crea un nuovo elemento div per il log
+    const newLog = document.createElement('div');
+    newLog.textContent = message;
 
-  // Aggiungi il nuovo log in fondo
-  logContainer.appendChild(newLog);
+    // Aggiungi il nuovo log in fondo
+    logContainer.appendChild(newLog);
 
-  // Limita il numero di log a 20
-  const logItems = logContainer.getElementsByTagName('div');
-  if (logItems.length > 20) {
-    logContainer.removeChild(logItems[0]);  // Rimuovi il log più vecchio
-  }
+    // Limita il numero di log che vengono mostrati (esempio: massimo 20 log)
+    const logItems = logContainer.getElementsByTagName('div');
+    if (logItems.length > 20) {
+        logContainer.removeChild(logItems[0]);  // Rimuovi il log più vecchio (in cima)
+    }
 
-  // Imposta l'altezza del log per mantenere la finestra a 3 entry (ripristina la dimensione predefinita)
-  logContainer.style.height = defaultHeight + 'px';
+    // Impostare l'altezza della finestra in base al numero di log
+    const maxHeight = logHeight || 90;  // Se non è stato modificato, usa il valore di default
+    logContainer.style.height = `${Math.min(logItems.length, 20) * 30}px`;  // 30px per log
 
-  // Assicura che l'ultima entry sia sempre visibile in fondo
-  logContainer.scrollTop = logContainer.scrollHeight;
+    // Assicurati che l'ultima entry sia sempre visibile in fondo
+    logContainer.scrollTop = logContainer.scrollHeight;
 }
-
-// Funzione di inizializzazione
-function initializeLog() {
-  const logContainer = document.getElementById('log');
-  logContainer.style.height = defaultHeight + 'px'; // Imposta la finestra del log alla dimensione predefinita (3 entry)
-  logContainer.style.transition = 'height 0.3s ease';
-}
-
-// Chiamare la funzione initializeLog all'inizio
-initializeLog();
