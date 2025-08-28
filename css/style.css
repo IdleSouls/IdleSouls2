@@ -123,9 +123,9 @@ body {
   z-index: 100;
   resize: vertical;
   overflow-y: auto;
-  min-height: 60px;  /* Modificato per 2 entry */
-  max-height: 90px;  /* Massimo per 3 entry */
-  height: 60px; /* Altezza predefinita per 2 entry */
+  min-height: 90px;  /* 3 entry visibili (minimo) */
+  max-height: 120px;  /* 3 entry visibili (massimo) */
+  height: 90px; /* Altezza predefinita (per 3 entry) */
 }
 
 /* Log items */
