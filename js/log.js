@@ -1,11 +1,10 @@
 let isResizing = false;
 let lastDownY = 0;
-let defaultHeight = 90;  // altezza predefinita per 3 entry (esempio 90px)
-let currentHeight = defaultHeight;  // Salva l'altezza corrente
-const maxHeight = 300;  // Altezza massima (per 20 entry)
-const minHeight = 30;   // Altezza minima
+const defaultHeight = 90;  // altezza predefinita per 3 entry
+const maxHeight = 300;  // massimo per 20 entry
+const minHeight = 30;   // altezza minima
 
-// Seleziona i contenitori
+// Seleziona il contenitore e la linea di ridimensionamento
 const logContainer = document.getElementById('log');
 const logResizer = document.getElementById('log-resizer');
 
@@ -27,7 +26,6 @@ document.addEventListener('mousemove', (e) => {
   if (newHeight >= minHeight && newHeight <= maxHeight) {
     logContainer.style.height = newHeight + 'px';
     lastDownY = e.clientY;  // Aggiorna la posizione dell'ultima Y
-    currentHeight = newHeight; // Salva la dimensione attuale
   }
 });
 
