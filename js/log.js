@@ -33,7 +33,7 @@ function updateLog(message) {
 const logResizer = document.getElementById('log-resizer');
 const logContainer = document.getElementById('log');
 
-// log.js: Gestisce l'aggiunta di voci al log e la gestione del ridimensionamento della finestra del log
+// Gestisce l'aggiunta di voci al log e la gestione del ridimensionamento della finestra del log
 
 let isResizing = false;
 let lastDownY = 0;
@@ -70,10 +70,11 @@ document.addEventListener('mouseup', () => {
   document.documentElement.style.cursor = 'auto';  // Ripristina il cursore normale
 });
 
-// Funzione per aggiungere voci al log
+// Funzione per aggiungere un nuovo messaggio al log
 function updateLog(message) {
     const logContainer = document.getElementById('log');
-    const logResizer = document.getElementById('log-resizer');
+
+    console.log('Aggiungo log: ', message); // Debug: mostra cosa viene aggiunto al log
 
     // Crea un nuovo elemento div per il log
     const newLog = document.createElement('div');
@@ -89,7 +90,6 @@ function updateLog(message) {
     }
 
     // Impostare l'altezza della finestra in base al numero di log
-    const maxHeight = logHeight || 30;  // Se non è stato modificato, usa il valore di default
     logContainer.style.height = `${Math.min(logItems.length, 3) * 50}px`;  // 50px per log
 
     // Assicurati che l'ultima entry sia sempre visibile in fondo
