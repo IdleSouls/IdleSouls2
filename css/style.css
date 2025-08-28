@@ -13,7 +13,7 @@ body {
   font-family: Arial, sans-serif;
   background-color: #0a0a2a;
   color: white;
-  overflow: visibile;
+  overflow: hidden;
 }
 
 /* Colonne principali */
@@ -107,6 +107,7 @@ body {
   background-color: #0d5db6;
 }
 
+/* Log */
 #log {
   position: fixed;
   bottom: 0;
@@ -121,12 +122,12 @@ body {
   box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.7);
   z-index: 100;
 
-  /* ✅ Scroll & Resize */
+  /* Scroll & Resize */
   resize: vertical;          /* permette all'utente di ridimensionare verticalmente */
   overflow-y: auto;          /* mostra scrollbar se serve */
   overflow-x: hidden;        /* niente scroll orizzontale */
 
-  /* ✅ Altezza dinamica e limite */
+  /* Inizialmente invisibile */
   min-height: 0;             /* altezza iniziale */
   max-height: 15em;          /* massimo ~10 righe */
   height: 0;                 /* inizio invisibile */
