@@ -7,6 +7,7 @@ let logHeight = 6;  // Impostiamo una dimensione iniziale della finestra di log
 // Funzione per aggiungere un nuovo messaggio al log
 function updateLog(message) {
     const logContainer = document.getElementById('log');
+    const logResizer = document.getElementById('log-resizer');
 
     console.log('Aggiungo log: ', message); // Debug: mostra cosa viene aggiunto al log
 
