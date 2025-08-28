@@ -39,10 +39,35 @@ let isResizing = false;
 let lastDownY = 0;
 let logHeight = 6;  // Impostiamo una dimensione iniziale della finestra di log
 
+// Funzione per aggiungere un nuovo messaggio al log
+function updateLog(message) {
+    const logContainer = document.getElementById('log');
+
+    // Crea un nuovo elemento div per il log
+    const newLog = document.createElement('div');
+    newLog.textContent = message;
+
+    // Aggiungi il nuovo log in fondo
+    logContainer.appendChild(newLog);
+
+    // Limita il numero di log che vengono mostrati (esempio: massimo 3 log)
+    const logItems = logContainer.getElementsByTagName('div');
+    if (logItems.length > 3) {
+        logContainer.removeChild(logItems[0]);  // Rimuovi il log più vecchio (in cima)
+    }
+
+    // Impostare l'altezza della finestra in base al numero di log
+    logContainer.style.height = `${Math.min(logItems.length, 3) * 50}px`;  // 50px per log
+
+    // Assicurati che l'ultima entry sia sempre visibile in fondo
+    logContainer.scrollTop = logContainer.scrollHeight;
+}
+
 // Aggiungere la logica di ridimensionamento per la finestra del log
 const logResizer = document.getElementById('log-resizer');
 const logContainer = document.getElementById('log');
 
+// Ridimensionamento della finestra del log
 logResizer.addEventListener('mousedown', (e) => {
   // Inizio del ridimensionamento
   isResizing = true;
@@ -69,32 +94,6 @@ document.addEventListener('mouseup', () => {
   isResizing = false;
   document.documentElement.style.cursor = 'auto';  // Ripristina il cursore normale
 });
-
-// Funzione per aggiungere un nuovo messaggio al log
-function updateLog(message) {
-    const logContainer = document.getElementById('log');
-
-    console.log('Aggiungo log: ', message); // Debug: mostra cosa viene aggiunto al log
-
-    // Crea un nuovo elemento div per il log
-    const newLog = document.createElement('div');
-    newLog.textContent = message;
-
-    // Aggiungi il nuovo log in fondo
-    logContainer.appendChild(newLog);
-
-    // Limita il numero di log che vengono mostrati (esempio: massimo 3 log)
-    const logItems = logContainer.getElementsByTagName('div');
-    if (logItems.length > 3) {
-        logContainer.removeChild(logItems[0]);  // Rimuovi il log più vecchio (in cima)
-    }
-
-    // Impostare l'altezza della finestra in base al numero di log
-    logContainer.style.height = `${Math.min(logItems.length, 3) * 50}px`;  // 50px per log
-
-    // Assicurati che l'ultima entry sia sempre visibile in fondo
-    logContainer.scrollTop = logContainer.scrollHeight;
-}
 
 // Funzione di inizializzazione (opzionale per risistemare la finestra del log)
 function initializeLog() {
