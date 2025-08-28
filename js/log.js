@@ -1,21 +1,69 @@
-// Funzione per aggiungere nuovi log
+// log.js: Gestisce l'aggiunta di voci al log e la gestione del ridimensionamento della finestra del log
+
+// Funzione per aggiungere un nuovo messaggio al log
 function updateLog(message) {
-  const logContainer = document.getElementById('log');
-  console.log('Aggiungo log: ', message); // Debug: mostra cosa viene aggiunto al log
+    const logContainer = document.getElementById('log');
+    const logResizer = document.getElementById('log-resizer');
 
-  // Crea un nuovo elemento div per il log
-  const newLog = document.createElement('div');
-  newLog.textContent = message;
+    console.log('Aggiungo log: ', message); // Debug: mostra cosa viene aggiunto al log
 
-  // Aggiungi il nuovo log all'inizio del contenitore (in basso, l'ultimo messaggio va sotto)
-  logContainer.appendChild(newLog);
+    // Crea un nuovo elemento div per il log
+    const newLog = document.createElement('div');
+    newLog.textContent = message;
 
-  // Aggiungi l'animazione per aumentare la dimensione del log
-  logContainer.style.height = `${Math.min(logContainer.scrollHeight, 15 * 18)}px`; // Limita l'altezza
+    // Aggiungi il nuovo log all'inizio del contenitore
+    logContainer.appendChild(newLog);
 
-  // Limita il numero di log che vengono mostrati
-  const logItems = logContainer.getElementsByTagName('div');
-  if (logItems.length > 10) {
-    logContainer.removeChild(logItems[0]); // Rimuove i log più vecchi quando superano il limite
-  }
+    // Assicura che la finestra del log si allunghi solo se necessario
+    if (logContainer.offsetHeight < logContainer.scrollHeight) {
+        logContainer.style.height = logContainer.scrollHeight + 'px';
+    }
+
+    // Limita il numero di log che vengono mostrati (esempio: massimo 10 log)
+    const logItems = logContainer.getElementsByTagName('div');
+    if (logItems.length > 10) {
+        logContainer.removeChild(logItems[0]);  // Rimuovi il primo log
+    }
 }
+
+// Gestire il ridimensionamento del log
+const logResizer = document.getElementById('log-resizer');
+const logContainer = document.getElementById('log');
+
+// Variabili per il ridimensionamento
+let isResizing = false;
+let lastDownY = 0;
+
+logResizer.addEventListener('mousedown', (e) => {
+  isResizing = true;
+  lastDownY = e.clientY;
+  document.documentElement.style.cursor = 'ns-resize';
+});
+
+document.addEventListener('mousemove', (e) => {
+  if (!isResizing) return;
+
+  const offset = e.clientY - lastDownY;
+  const newHeight = logContainer.offsetHeight - offset;
+  
+  // Imposta il nuovo valore di altezza mantenendo i limiti
+  if (newHeight >= 1 && newHeight <= 250) {  // tra 1px e 250px (10 righe)
+    logContainer.style.height = newHeight + 'px';
+    lastDownY = e.clientY;  // aggiorna la posizione dell'ultima Y
+  }
+});
+
+document.addEventListener('mouseup', () => {
+  isResizing = false;
+  document.documentElement.style.cursor = 'auto';
+});
+
+// Funzione di inizializzazione (opzionale per risistemare la finestra del log)
+function initializeLog() {
+    const logContainer = document.getElementById('log');
+    logContainer.style.height = '0px'; // Imposta la finestra del log invisibile all'inizio
+    logContainer.style.transition = 'height 0.3s ease';
+}
+
+// Chiamare la funzione initializeLog all'inizio
+initializeLog();
