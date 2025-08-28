@@ -18,10 +18,10 @@ document.addEventListener('mousemove', (e) => {
   if (!isResizing) return;
 
   const offset = e.clientY - lastDownY; // Calcola la differenza di posizione
-  const newHeight = logContainer.offsetHeight + offset; // Cambia la direzione per ingrandire verso l'alto
+  const newHeight = logContainer.offsetHeight - offset; // Invertiamo il comportamento (se trascini verso l'alto, aumenta)
 
   // Imposta il nuovo valore di altezza, rispettando i limiti
-  if (newHeight >= 60 && newHeight <= 90) {  // Limite tra 2 e 3 entry
+  if (newHeight >= 90 && newHeight <= 120) {  // Limite di altezza tra 3 entry (90px) e 4 entry (120px)
     logContainer.style.height = newHeight + 'px';
     lastDownY = e.clientY;  // Aggiorna la posizione dell'ultima Y
   }
@@ -63,7 +63,7 @@ function updateLog(message) {
 // Funzione di inizializzazione (opzionale per risistemare la finestra del log)
 function initializeLog() {
     const logContainer = document.getElementById('log');
-    logContainer.style.height = '60px'; // Imposta la finestra del log visibile con l'altezza di default
+    logContainer.style.height = '90px'; // Imposta la finestra del log visibile con l'altezza di default (3 entry)
     logContainer.style.transition = 'height 0.3s ease';
 }
 
