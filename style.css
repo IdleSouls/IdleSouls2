@@ -1,0 +1,112 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #0a0a2a;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* Header */
+#header {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #0d1b2a;
+    border-bottom: 2px solid #ffd700;
+}
+
+#title {
+    font-size: 2.5em;
+    color: #ffd700;
+}
+
+#resourceCount {
+    font-size: 1.5em;
+    color: #ffd700;
+}
+
+/* Menu */
+#menu {
+    display: flex;
+    padding: 10px 20px;
+    background-color: #1b263b;
+    gap: 10px;
+}
+
+#menu button {
+    padding: 10px 20px;
+    background-color: #1a73e8;
+    border: none;
+    color: white;
+    font-size: 1em;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#menu button:hover {
+    background-color: #0d5db6;
+}
+
+/* Centro */
+#centerColumn {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: #1b263b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#mainContent {
+    text-align: center;
+}
+
+/* Pulsante Focus dinamico */
+#focusButton {
+    margin-top: 20px;
+    padding: 15px 30px;
+    background-color: #1a73e8;
+    border: none;
+    color: white;
+    font-size: 1.5em;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#focusButton:hover {
+    background-color: #0d5db6;
+}
+
+/* Log */
+#log {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: rgba(0, 0, 50, 0.9);
+    color: #ffd700;
+    padding: 15px;
+    font-family: 'Courier New', monospace;
+    font-size: 1.2em;
+    border-top: 3px solid #ffd700;
+    box-shadow: 0px -5px 10px rgba(0,0,0,0.5);
+    z-index: 10;
+}
+
+#log div {
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+#log div:nth-child(odd) {
+    background-color: rgba(0,0,70,0.8);
+}
+
+#log div:nth-child(even) {
+    background-color: rgba(0,0,80,0.8);
+}
