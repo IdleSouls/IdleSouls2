@@ -120,15 +120,22 @@ body {
   border-top: 3px solid #ffd700;
   box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.7);
   z-index: 100;
-  resize: vertical;
-  overflow-y: auto;
-  min-height: 0;
-  max-height: 15em;  /* fino a ~10 righe */
-  height: 0;
-  user-select: text;
+
+  /* ✅ Scroll & Resize */
+  resize: vertical;          /* permette all'utente di ridimensionare verticalmente */
+  overflow-y: auto;          /* mostra scrollbar se serve */
+  overflow-x: hidden;        /* niente scroll orizzontale */
+
+  /* ✅ Altezza dinamica e limite */
+  min-height: 0;             /* altezza iniziale */
+  max-height: 15em;          /* massimo ~10 righe */
+  height: 0;                 /* inizio invisibile */
+
+  /* ✅ Selezione e layout */
+  user-select: text;         /* testo selezionabile */
   display: flex;
   flex-direction: column;
-  justify-content: flex-end; /* mostra i log più nuovi in basso */
+  justify-content: flex-end; /* messaggi più recenti in basso */
   transition: height 0.3s ease;
 }
 
@@ -138,4 +145,5 @@ body {
   padding: 3px 6px;
   border-radius: 3px;
   background-color: rgba(0, 0, 90, 0.5);
+  pointer-events: auto;
 }
