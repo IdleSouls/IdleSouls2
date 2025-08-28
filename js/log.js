@@ -1,6 +1,6 @@
 let isResizing = false;
 let lastDownY = 0;
-let currentHeight = 6;  // Altezza predefinita per il log (iniziale)
+let currentHeight = 4;  // Altezza predefinita per il log (iniziale)
 const minHeight = 30;   // Altezza minima (ad esempio 30px)
 const maxHeight = 250;  // Altezza massima (ad esempio 250px)
 
