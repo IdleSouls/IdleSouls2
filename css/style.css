@@ -1,136 +1,132 @@
-/* Layout principale */
+/* Reset base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: Arial, sans-serif;
+  background-color: #0a0a2a;
+  color: white;
+}
+
+/* Container principale con 3 colonne */
 body {
-    display: flex;
-    height: 100vh;
-    overflow: hidden;
-    font-family: 'Arial', sans-serif;
-    background-color: #0a0a2a;
-    color: #fff;
-    margin: 0;
-    padding: 0;
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
 }
 
-/* Colonne */
-#leftColumn, #centerColumn, #rightColumn {
-    padding: 20px;
-    height: 100vh;
-    overflow-y: auto;
-}
-
-/* Colonna sinistra (menu navigazione) */
+/* COLONNA SINISTRA */
 #leftColumn {
-    width: 220px; /* larghezza fissa */
-    background-color: #0d1b2a;
-    border-right: 2px solid #ffd700;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+  width: 220px;
+  background-color: #0d1b2a;
+  border-right: 2px solid #ffd700;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  /* Per far stare titolo e menu in colonna */
 }
 
-/* Colonna centrale (contenuto dinamico) */
-#centerColumn {
-    flex-grow: 1; /* riempie spazio disponibile */
-    background-color: #1b263b;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    flex-direction: column;
-}
-
-/* Colonna destra (inventario/valori) */
-#rightColumn {
-    width: 220px; /* larghezza fissa */
-    background-color: #0d1b2a;
-    border-left: 2px solid #ffd700;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-/* Titolo IdleSouls in alto a sinistra */
 #leftColumn h1 {
-    color: #ffd700;
-    font-size: 2.5em;
-    margin-bottom: 20px;
+  color: #ffd700;
+  font-size: 2.5em;
+  margin-bottom: 20px;
+  user-select: none;
 }
 
-/* Menu navigazione sotto titolo */
+/* Menu verticale */
 #navMenu {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-/* Pulsanti menu */
 .navButton {
-    padding: 10px 15px;
-    background-color: #1a73e8;
-    border: none;
-    color: white;
-    font-size: 1.1em;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    width: 100%;
-    text-align: left;
+  background-color: #1a73e8;
+  border: none;
+  color: white;
+  font-size: 1.1em;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  transition: background-color 0.2s;
 }
 
 .navButton:hover {
-    background-color: #0d5db6;
+  background-color: #0d5db6;
 }
 
-/* Conteggio risorse in alto a destra */
-#resourceCount {
-    font-size: 1.5em;
-    color: #ffd700;
-    margin-bottom: 20px;
+/* COLONNA CENTRALE */
+#centerColumn {
+  flex-grow: 1;
+  background-color: #1b263b;
+  display: flex;
+  justify-content: center; /* centro orizzontale */
+  align-items: center;    /* centro verticale */
+  padding: 20px;
 }
 
-/* Pulsante Focus nella colonna centrale */
+/* COLONNA DESTRA */
+#rightColumn {
+  width: 220px;
+  background-color: #0d1b2a;
+  border-left: 2px solid #ffd700;
+  padding: 20px;
+  color: #ffd700;
+  font-size: 1.5em;
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+}
+
+/* Pulsante Focus */
 #focusButton {
-    padding: 15px 30px;
-    background-color: #1a73e8;
-    border: none;
-    color: white;
-    font-size: 1.5em;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    align-self: center;
+  padding: 15px 30px;
+  background-color: #1a73e8;
+  border: none;
+  color: white;
+  font-size: 1.5em;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
 }
 
 #focusButton:hover {
-    background-color: #0d5db6;
+  background-color: #0d5db6;
 }
 
-/* Log in basso a tutta larghezza */
+/* Log in basso */
 #log {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: rgba(0, 0, 50, 0.9);
-    color: #ffd700;
-    padding: 15px;
-    font-family: 'Courier New', monospace;
-    font-size: 1.2em;
-    max-height: 200px;
-    overflow-y: auto;
-    border-top: 3px solid #ffd700;
-    z-index: 10;
-    box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.5);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  background-color: rgba(0, 0, 50, 0.9);
+  color: #ffd700;
+  font-family: 'Courier New', monospace;
+  font-size: 1.2em;
+  padding: 15px;
+  border-top: 3px solid #ffd700;
+  box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.5);
+  z-index: 10;
 }
 
 #log div {
-    margin-bottom: 10px;
-    line-height: 1.5;
+  margin-bottom: 10px;
+  line-height: 1.5;
 }
 
 #log div:nth-child(odd) {
-    background-color: rgba(0, 0, 70, 0.8);
+  background-color: rgba(0, 0, 70, 0.8);
 }
 
 #log div:nth-child(even) {
-    background-color: rgba(0, 0, 80, 0.8);
+  background-color: rgba(0, 0, 80, 0.8);
 }
