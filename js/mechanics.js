@@ -5,12 +5,18 @@ window.upgrades = {
     doubleFocus: false
 };
 
-// Applica effetto upgrade
-function applyUpgrade(upgrade) {
+// Funzione per applicare upgrade
+window.applyUpgrade = function(upgrade) {
     window.upgrades[upgrade] = true;
-}
+};
 
-// Gacha globale con applicazione upgrade
+// Funzione per aggiungere Soul Fragments
+window.addSoulFragments = function(amount) {
+    window.soulFragments += amount;
+    window.updateResourceCount();
+};
+
+// Funzione Gacha con upgrade
 window.performGacha = function() {
     let roll = Math.floor(Math.random() * 4); // 0-3
 
