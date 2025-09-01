@@ -17,7 +17,7 @@ window.addSoulFragments = function(amount) {
     window.updateResourceCount();
 };
 
-// Calcola e restituisce il guadagno dal Focus
+// Funzione Gacha con upgrade
 window.performGacha = function() {
     let roll = Math.floor(Math.random() * 4); // 0-3
 
@@ -33,32 +33,34 @@ window.performGacha = function() {
 
     window.addSoulFragments(roll);
     window.updateLog(`Hai ottenuto ${roll} Soul Fragments! Totale: ${window.soulFragments}`, "gain");
+    window.updateProbabilitiesUI();
     return roll;
 };
 
-// Funzione per ottenere probabilità dinamiche
+// Calcola probabilità dinamiche
 window.getGachaProbabilities = function() {
-    let base = "0-3 Soul Fragments";
-    let focusBoostPercent = 50 * window.upgrades.focusBoost;
-    let doubleChance = 25 * window.upgrades.doubleFocus;
+    let baseProb = [0.25, 0.25, 0.25, 0.25]; // 0,1,2,3 frammenti di base
 
-    return {
-        base: base,
-        focusBoost: focusBoostPercent,
-        doubleFocus: doubleChance
-    };
+    // Applica focusBoost (incrementa mediamente i frammenti)
+    const multiplier = 1 + 0.5 * window.upgrades.focusBoost;
+    const adjustedProb = baseProb.map((p, i) => p * (i * multiplier + 1));
+    const total = adjustedProb.reduce((a,b)=>a+b,0);
+    const normalized = adjustedProb.map(p => (p/total*100).toFixed(0) + "%");
+
+    return normalized; // array di percentuali per 0,1,2,3
 };
 
 // Aggiorna il box probabilità in Meditation
 window.updateProbabilitiesUI = function() {
-    const probBox = document.getElementById('gachaProbabilities');
+    const probBox = document.getElementById('probabilitiesText');
     if (!probBox) return;
 
     const probs = window.getGachaProbabilities();
     probBox.innerHTML = `
-        <h3>Probabilità Gacha:</h3>
-        <p>${probs.base}</p>
-        <p>+${probs.focusBoost}% se Focus Potenziato</p>
-        <p>${probs.doubleFocus}% possibilità di Doppio Focus</p>
+        0 Fragments: ${probs[0]}<br>
+        1 Fragment: ${probs[1]}<br>
+        2 Fragments: ${probs[2]}<br>
+        3 Fragments: ${probs[3]}<br>
+        Probabilità di doppio Focus: ${25 * window.upgrades.doubleFocus}%
     `;
 };
