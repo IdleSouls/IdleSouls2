@@ -17,9 +17,9 @@
   z-index: 100;
   resize: vertical;
   overflow-y: auto;
-  min-height: 90px;  /* 3 entry visibili (minimo) */
-  max-height: 120px;  /* 4 entry visibili (massimo) */
-  height: 90px; /* Altezza predefinita (per 3 entry) */
+  min-height: 90px;
+  max-height: 120px;
+  height: 90px;
 }
 
 /* Corpo e layout principale */
@@ -46,11 +46,34 @@ body { display:flex; flex-direction:row; height:100vh; font-family:Arial,sans-se
 
 /* Upgrade */
 #upgradesContainer { display:flex; flex-direction:column; gap:10px; padding:10px; }
-.upgradeItem { display:flex; justify-content:space-between; align-items:center; background-color:#1a73e8; padding:10px 15px; border-radius:5px; color:white; cursor:pointer; transition:background-color 0.2s; }
-.upgradeItem:hover { background-color:#0d5db6; }
+/* Nuova grafica upgrade simile barra focus */
+.upgradeItem {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background-color:#0d1b2a;      /* Sfondo scuro come focusBarContainer */
+  border:2px solid #ffd700;       /* Bordo dorato */
+  border-radius:5px;
+  padding:10px 15px;
+  color:#ffd700;
+  cursor:pointer;
+  transition: background-color 0.2s;
+  margin-bottom:10px;
+}
+.upgradeItem:hover { background-color:#1a73e8; }
 .upgradeText { font-size:1.2em; }
-.upgradeButton { background-color:#ffd700; border:none; color:#0d1b2a; font-weight:bold; padding:6px 12px; border-radius:5px; cursor:pointer; transition:background-color 0.2s; }
-.upgradeButton:hover { background-color:#e5c100; }
+/* Pulsante dentro upgrade */
+.upgradeButton {
+  background-color:#1a73e8;      /* Blu come focusBar */
+  color:#ffd700;                 /* Testo dorato */
+  font-weight:bold;
+  border:2px solid #ffd700;
+  border-radius:5px;
+  padding:6px 12px;
+  cursor:pointer;
+  transition: background-color 0.2s;
+}
+.upgradeButton:hover { background-color:#0d5db6; }
 
 /* Meditation container */
 #meditationContainer { display:flex; flex-direction:column; align-items:center; gap:20px; color:#ffd700; text-align:center; }
