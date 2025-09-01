@@ -146,47 +146,49 @@ body {
   cursor: ns-resize;
 }
 
-/* Upgrade section */
+/* Upgrade container */
 #upgradesContainer {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  color: #ffd700;
+  gap: 10px;
+  padding: 10px;
 }
 
-.upgrade-item {
+/* Singolo upgrade */
+.upgradeItem {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
-  background-color: #0d1b2a;
-  border: 2px solid #ffd700;
-  border-radius: 5px;
-}
-
-.upgrade-info p {
-  margin: 4px 0;
-  font-size: 1em;
-}
-
-.buy-upgrade {
-  padding: 10px 20px;
-  font-size: 1.2em;
   background-color: #1a73e8;
+  padding: 10px 15px;
+  border-radius: 5px;
   color: white;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.upgradeItem:hover {
+  background-color: #0d5db6;
+}
+
+.upgradeText {
+  font-size: 1.2em;
+}
+
+/* Pulsanti upgrade */
+.upgradeButton {
+  background-color: #ffd700;
   border: none;
+  color: #0d1b2a;
+  font-weight: bold;
+  padding: 6px 12px;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.2s;
 }
 
-.buy-upgrade:hover {
-  background-color: #0d5db6;
-}
-
-.buy-upgrade:disabled {
-  background-color: gray;
-  cursor: not-allowed;
+.upgradeButton:hover {
+  background-color: #e5c100;
 }
 
 /* Meditation container */
