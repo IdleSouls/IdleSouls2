@@ -1,66 +1,79 @@
 // Upgrade globali
 window.upgrades = {
-    focusBoost: 0, // numero di volte acquistato
-    rareGacha: 0,
-    doubleFocus: 0
+    minFragments: 0,       // aumento minimo frammenti
+    maxFragments: 0,       // aumento massimo frammenti
+    doubleFocus: 0,        // probabilità di doppio gacha
+    fillSpeed: 0,          // velocità riempimento barra
+    drainSpeed: 0           // velocità svuotamento barra
 };
 
-// Applica upgrade (incrementa contatore)
-window.applyUpgrade = function(upgrade) {
-    window.upgrades[upgrade]++;
-    window.updateProbabilitiesUI();
+// Stato Focus Bar
+window.focusState = {
+    filling: false,
+    draining: false,
+    progress: 0,
+    fillSpeed: 0.5, // percentuale al tick
+    drainSpeed: 0.2
 };
 
-// Aggiunge Soul Fragments
-window.addSoulFragments = function(amount) {
-    window.soulFragments += amount;
-    window.updateResourceCount();
-};
-
-// Funzione Gacha con upgrade
+// Funzione Gacha aggiornata
 window.performGacha = function() {
-    let roll = Math.floor(Math.random() * 4); // 0-3
+    const minF = 0 + window.upgrades.minFragments;
+    const maxF = 3 + window.upgrades.maxFragments;
+    let roll = Math.floor(Math.random() * (maxF - minF + 1)) + minF;
 
-    // Effetto focusBoost: +50% per ogni livello
-    if (window.upgrades.focusBoost > 0) {
-        roll = Math.floor(roll * (1 + 0.5 * window.upgrades.focusBoost));
-    }
-
-    // Effetto doubleFocus: 25% di raddoppio per ogni livello
-    if (window.upgrades.doubleFocus > 0 && Math.random() < 0.25 * window.upgrades.doubleFocus) {
+    // Effetto doubleFocus
+    if (window.upgrades.doubleFocus > 0 && Math.random() < 0.01 * window.upgrades.doubleFocus) {
         roll *= 2;
     }
 
-    window.addSoulFragments(roll);
-    window.updateLog(`Hai ottenuto ${roll} Soul Fragments! Totale: ${window.soulFragments}`, "gain");
+    window.soulFragments += roll;
+    window.updateResourceCount();
+    window.updateLog(`Hai ottenuto ${roll} Soul Fragments! Totale: ${window.soulFragments}`);
     window.updateProbabilitiesUI();
     return roll;
 };
 
-// Calcola probabilità dinamiche
-window.getGachaProbabilities = function() {
-    let baseProb = [0.25, 0.25, 0.25, 0.25]; // 0,1,2,3 frammenti di base
-
-    // Applica focusBoost (incrementa mediamente i frammenti)
-    const multiplier = 1 + 0.5 * window.upgrades.focusBoost;
-    const adjustedProb = baseProb.map((p, i) => p * (i * multiplier + 1));
-    const total = adjustedProb.reduce((a,b)=>a+b,0);
-    const normalized = adjustedProb.map(p => (p/total*100).toFixed(0) + "%");
-
-    return normalized; // array di percentuali per 0,1,2,3
+// Aggiorna barra UI
+window.updateFocusBarUI = function() {
+    const bar = document.getElementById('focusBar');
+    if (!bar) return;
+    bar.style.width = window.focusState.progress + '%';
 };
 
-// Aggiorna il box probabilità in Meditation
-window.updateProbabilitiesUI = function() {
-    const probBox = document.getElementById('probabilitiesText');
-    if (!probBox) return;
+// Tick barra (riempimento / svuotamento)
+window.focusTick = function() {
+    if (window.focusState.filling) {
+        window.focusState.progress += window.focusState.fillSpeed + window.upgrades.fillSpeed;
+        if (window.focusState.progress >= 100) {
+            window.focusState.progress = 100;
+            window.focusState.filling = false;
+            // Esegui il gacha
+            window.performGacha();
+            window.focusState.draining = true;
+        }
+    } else if (window.focusState.draining) {
+        window.focusState.progress -= window.focusState.drainSpeed + window.upgrades.drainSpeed;
+        if (window.focusState.progress <= 0) {
+            window.focusState.progress = 0;
+            window.focusState.draining = false;
+        }
+    }
+    window.updateFocusBarUI();
+};
 
-    const probs = window.getGachaProbabilities();
-    probBox.innerHTML = `
-        0 Fragments: ${probs[0]}<br>
-        1 Fragment: ${probs[1]}<br>
-        2 Fragments: ${probs[2]}<br>
-        3 Fragments: ${probs[3]}<br>
-        Probabilità di doppio Focus: ${25 * window.upgrades.doubleFocus}%
-    `;
+// Start tick loop
+setInterval(window.focusTick, 20); // 50 fps
+
+// Aggiorna probabilità dinamiche
+window.updateProbabilitiesUI = function() {
+    const probText = document.getElementById('probabilitiesText');
+    const doubleElem = document.getElementById('doubleChance');
+    if (!probText || !doubleElem) return;
+
+    const minF = 0 + window.upgrades.minFragments;
+    const maxF = 3 + window.upgrades.maxFragments;
+
+    probText.textContent = `${minF} - ${maxF} Soul Fragments`;
+    doubleElem.textContent = `${window.upgrades.doubleFocus}%`;
 };
