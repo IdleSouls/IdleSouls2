@@ -1,25 +1,17 @@
-// Aggiorna il log
-window.updateLog = function(message) {
-    const logContainer = document.getElementById('log');
+// Funzione aggiorna log
+window.updateLog = function(message, type="info") {
+    const logContainer = document.getElementById('log-entries');
     if (!logContainer) return;
 
     const entry = document.createElement('div');
     entry.textContent = message;
+    entry.classList.add("log-" + type);
+
     logContainer.insertBefore(entry, logContainer.firstChild);
 
+    // Limita massimo 20 entry
     const items = logContainer.getElementsByTagName('div');
-    if (items.length > 10) logContainer.removeChild(items[items.length - 1]);
+    if (items.length > 20) logContainer.removeChild(items[items.length - 1]);
+
+    logContainer.scrollTop = logContainer.scrollHeight;
 };
-
-// Pulsante Focus
-document.addEventListener("DOMContentLoaded", () => {
-    const focusButton = document.getElementById('focusButton');
-    if (!focusButton) return;
-
-    focusButton.addEventListener('click', () => {
-        const gained = window.performGacha();
-        window.soulFragments += gained;
-        window.updateResourceCount();
-        window.updateLog(`Hai ottenuto ${gained} Soul Fragments! Totale: ${window.soulFragments}`);
-    });
-});
