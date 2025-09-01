@@ -219,3 +219,8 @@ window.renderUpgrades = function() {
         container.appendChild(item);
     });
 };
+
+// Chiama il rendering degli upgrade all’avvio
+document.addEventListener('DOMContentLoaded', () => {
+    renderUpgrades();
+});
