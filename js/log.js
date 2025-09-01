@@ -8,7 +8,7 @@ window.updateLog = function(message, type = "info") {
     entry.textContent = message;
     entry.classList.add("log-" + type);
 
-    logContainer.insertBefore(entry, logContainer.firstChild);
+    logContainer.appendChild(entry);
 
     // Limita a massimo 20 entry
     const items = logContainer.getElementsByTagName('div');
