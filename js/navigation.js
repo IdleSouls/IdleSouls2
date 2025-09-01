@@ -29,6 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             window.applyUpgrade(upgrade);
                             window.updateLog(`Hai acquistato l'upgrade: ${upgrade}`);
                             btn.disabled = true;
+                            btn.textContent = "Acquistato";
                         } else {
                             window.updateLog(`Non hai abbastanza Soul Fragments per ${upgrade}`);
                         }
@@ -43,4 +44,3 @@ document.addEventListener("DOMContentLoaded", () => {
     // Sezione iniziale
     loadSection("meditation");
 });
-
