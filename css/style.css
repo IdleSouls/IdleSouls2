@@ -1,208 +1,34 @@
 /* Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+* { margin:0; padding:0; box-sizing:border-box; }
 
 /* Corpo e layout principale */
-body {
-  display: flex;
-  flex-direction: row;
-  height: 100vh;
-  font-family: Arial, sans-serif;
-  background-color: #0a0a2a;
-  color: white;
-  overflow: hidden;
-}
+body { display:flex; flex-direction:row; height:100vh; font-family:Arial,sans-serif; background-color:#0a0a2a; color:white; overflow:hidden; }
 
 /* Colonne principali */
-#leftColumn,
-#centerColumn,
-#rightColumn {
-  padding: 20px;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
+#leftColumn,#centerColumn,#rightColumn { padding:20px; height:100%; display:flex; flex-direction:column; }
+#leftColumn { width:220px; background-color:#0d1b2a; border-right:2px solid #ffd700; }
+#centerColumn { flex-grow:1; background-color:#1b263b; justify-content:center; align-items:center; overflow-y:auto; }
+#rightColumn { width:220px; background-color:#0d1b2a; border-left:2px solid #ffd700; color:#ffd700; font-size:1.5em; }
 
-#leftColumn {
-  width: 220px;
-  background-color: #0d1b2a;
-  border-right: 2px solid #ffd700;
-}
-
-#leftColumn h1 {
-  color: #ffd700;
-  font-size: 2.5em;
-  margin-bottom: 20px;
-}
-
-#navMenu {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.navButton {
-  background-color: #1a73e8;
-  border: none;
-  color: white;
-  font-size: 1.1em;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  text-align: left;
-  transition: background-color 0.2s;
-}
-
-.navButton:hover {
-  background-color: #0d5db6;
-}
-
-/* Colonna centrale */
-#centerColumn {
-  flex-grow: 1;
-  background-color: #1b263b;
-  justify-content: center;
-  align-items: center;
-  overflow-y: auto;
-}
-
-#mainContent {
-  width: 100%;
-  max-width: 600px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Colonna destra */
-#rightColumn {
-  width: 220px;
-  background-color: #0d1b2a;
-  border-left: 2px solid #ffd700;
-  color: #ffd700;
-  font-size: 1.5em;
-}
+/* Menu */
+.navButton { background-color:#1a73e8; border:none; color:white; font-size:1.1em; padding:10px 15px; border-radius:5px; cursor:pointer; text-align:left; transition:0.2s; }
+.navButton:hover { background-color:#0d5db6; }
 
 /* Pulsante Focus */
-#focusButton {
-  padding: 15px 30px;
-  background-color: #1a73e8;
-  border: none;
-  color: white;
-  font-size: 1.5em;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-#focusButton:hover {
-  background-color: #0d5db6;
-}
+#focusButton { padding:15px 30px; background-color:#1a73e8; border:none; color:white; font-size:1.5em; border-radius:5px; cursor:pointer; transition:0.2s; }
+#focusButton:hover { background-color:#0d5db6; }
 
 /* Upgrade */
-#upgradesContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 10px;
-}
+#upgradesContainer { display:flex; flex-direction:column; gap:10px; padding:10px; }
+.upgradeItem { display:flex; justify-content:space-between; align-items:center; background-color:#0d1b2a; padding:10px 15px; border-radius:5px; transition:0.2s; }
+.upgradeItem:hover { background-color:#0d5db6; }
+.upgradeText { font-size:1.2em; color:white; }
+.upgradeButton { background-color:#1a73e8; color:white; border:none; font-weight:bold; padding:10px 20px; border-radius:5px; cursor:pointer; transition:0.2s; }
+.upgradeButton:hover { background-color:#0d5db6; }
 
-.upgradeItem {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #0d1b2a;
-  padding: 10px 15px;
-  border-radius: 5px;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.upgradeItem:hover {
-  background-color: #0d5db6;
-}
-
-.upgradeText {
-  font-size: 1.2em;
-  color: white;
-}
-
-.upgradeButton {
-  background-color: #1a73e8;
-  color: white;
-  border: none;
-  font-weight: bold;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.upgradeButton:hover {
-  background-color: #0d5db6;
-}
-
-/* Meditation container */
-#meditationContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  color: #ffd700;
-  text-align: center;
-}
-
-#gachaProbabilities {
-  background-color: #0d1b2a;
-  border: 2px solid #ffd700;
-  padding: 10px 20px;
-  border-radius: 5px;
-  width: 300px;
-}
-
-/* Barra Focus */
-#focusBarContainer {
-  width: 100%;
-  height: 25px;
-  background-color: #0d1b2a;
-  border: 2px solid #ffd700;
-  margin-top: 15px;
-  border-radius: 5px;
-}
-
-#focusBar {
-  width: 0%;
-  height: 100%;
-  background-color: #1a73e8;
-  border-radius: 5px;
-}
+/* Focus bar */
+#focusBarContainer { width:100%; height:25px; background-color:#0d1b2a; border:2px solid #ffd700; margin-top:15px; border-radius:5px; }
+#focusBar { width:0%; height:100%; background-color:#1a73e8; border-radius:5px; }
 
 /* Log */
-#log {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background-color: rgba(0, 0, 50, 0.9);
-  color: #ffd700;
-  padding: 10px 20px;
-  font-family: 'Courier New', monospace;
-  font-size: 1.1em;
-  border-top: 3px solid #ffd700;
-  box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.7);
-  z-index: 100;
-  resize: vertical;
-  overflow-y: auto;
-  min-height: 90px;  /* 3 entry visibili (minimo) */
-  max-height: 120px;  /* 4 entry visibili (massimo) */
-  height: 90px; /* Altezza predefinita (per 3 entry) */
-}
-
-#log-resizer {
-  display: none; /* oppure background-color: transparent; */
-}
-
+#log { position:fixed; bottom:0; left:0; width:100%; background-color:rgba(0,0,50,0.9); color:#ffd700; padding:10px 20px; font-family:'Courier New', monospace; font-size:1.1em; border-top:3px solid #ffd700; box-shadow:0px -5px 10px rgba(0,0,0,0.7); z-index:100; overflow-y:auto; height:90px; }
