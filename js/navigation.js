@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
             .then(html => {
                 mainContent.innerHTML = html;
 
-                // Pulsante Focus solo se presente
+                // Sezione Meditation: aggiunge listener al Focus
                 const focusButton = document.getElementById('focusButton');
                 if (focusButton) {
                     focusButton.addEventListener('click', () => {
@@ -16,16 +16,17 @@ document.addEventListener("DOMContentLoaded", () => {
                     });
                 }
 
-                // Pulsanti acquisto upgrade se presente
+                // Sezione Upgrades: aggiunge listener ai pulsanti acquisto
                 const buyButtons = document.querySelectorAll('.buy-upgrade');
                 buyButtons.forEach(btn => {
                     btn.addEventListener('click', () => {
                         const upgrade = btn.dataset.upgrade;
                         const cost = parseInt(btn.previousElementSibling.querySelector('.upgrade-cost').textContent);
+
                         if (window.soulFragments >= cost) {
                             window.soulFragments -= cost;
                             window.updateResourceCount();
-                            applyUpgrade(upgrade);
+                            window.applyUpgrade(upgrade);
                             window.updateLog(`Hai acquistato l'upgrade: ${upgrade}`);
                             btn.disabled = true;
                         } else {
@@ -42,3 +43,4 @@ document.addEventListener("DOMContentLoaded", () => {
     // Sezione iniziale
     loadSection("meditation");
 });
+
