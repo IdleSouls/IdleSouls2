@@ -1,145 +1,113 @@
-// =======================
-// Variabili di Gioco
-// =======================
-let soulFragments = 0;
-let minFragments = 0;
-let maxFragments = 3;
+// game.js
 
+let fragments = 0;
+let focusActive = false;
 let focusProgress = 0;
-let focusSpeed = 1; // % al secondo
-let isFocusing = false;
+let focusInterval = null;
 
-let upgrades = [
-    {
-        id: "maxFragment",
-        name: "Frammenti Massimi",
-        description: "Aumenta i frammenti massimi ottenibili",
-        baseCost: 10,
-        cost: 10,
-        costMultiplier: 1.5,
-        increment: 1,
-        level: 0,
-        limit: 20
-    },
-    {
-        id: "minFragment",
-        name: "Frammenti Minimi",
-        description: "Aumenta i frammenti minimi ottenibili",
-        baseCost: 20,
-        cost: 20,
-        costMultiplier: 1.5,
-        increment: 1,
-        level: 0,
-        limit: 20
-    },
-    {
-        id: "doubleChance",
-        name: "Probabilità Doppio Gacha",
-        description: "Aumenta la probabilità di ottenere un doppio gacha",
-        baseCost: 50,
-        cost: 50,
-        costMultiplier: 2,
-        increment: 1,
-        level: 0,
-        limit: 50
-    },
-    {
-        id: "focusSpeed",
-        name: "Velocità Focus",
-        description: "Aumenta la velocità di caricamento della barra focus",
-        baseCost: 40,
-        cost: 40,
-        costMultiplier: 1.8,
-        increment: 5,
-        level: 0,
-        limit: 100
-    }
-];
+// Struttura upgrades
+const upgrades = {
+    minFragments: { level: 0, value: 0, baseCost: 10 },
+    maxFragments: { level: 0, value: 3, baseCost: 15 },
+    doubleGachaChance: { level: 0, value: 0, baseCost: 50 }
+};
 
-// =======================
-// Funzioni
-// =======================
+// Inizializzazione
+document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("focusButton").addEventListener("click", startFocus);
+    updateUI();
+});
 
-function updateSoulFragments(amount) {
-    soulFragments += amount;
-    document.getElementById("soulFragments").textContent = soulFragments;
-}
-
-function updateUpgradeUI() {
-    upgrades.forEach(upg => {
-        const btn = document.getElementById(`buy-${upg.id}`);
-        const costSpan = document.getElementById(`cost-${upg.id}`);
-        if (btn) {
-            btn.disabled = soulFragments < upg.cost || upg.level >= upg.limit;
-        }
-        if (costSpan) {
-            if (upg.level >= upg.limit) {
-                costSpan.textContent = "MAX";
-            } else {
-                costSpan.textContent = `${upg.cost} SF`;
-            }
-        }
-    });
-}
-
-function buyUpgrade(id) {
-    const upg = upgrades.find(u => u.id === id);
-    if (!upg || soulFragments < upg.cost || upg.level >= upg.limit) return;
-
-    // Sottrai frammenti
-    soulFragments -= upg.cost;
-    upg.level++;
-
-    // Applica effetti
-    if (id === "maxFragment") {
-        maxFragments += upg.increment;
-    } else if (id === "minFragment") {
-        if (minFragments + upg.increment <= maxFragments) {
-            minFragments += upg.increment;
-        }
-    } else if (id === "doubleChance") {
-        // da implementare in futuro
-    } else if (id === "focusSpeed") {
-        focusSpeed += upg.increment;
-    }
-
-    // Aggiorna costo
-    upg.cost = Math.floor(upg.baseCost * Math.pow(upg.costMultiplier, upg.level));
-
-    // Log
-    updateLog(`Hai acquistato "${upg.name}" (Livello ${upg.level})! Prossimo costo: ${upg.cost} SF`);
-
-    // Aggiorna UI
-    updateSoulFragments(0);
-    updateUpgradeUI();
-}
-
-function meditate() {
-    if (isFocusing) return;
-    isFocusing = true;
+// Funzione focus
+function startFocus() {
+    if (focusActive) return;
+    focusActive = true;
     focusProgress = 0;
-    document.getElementById("focusProgress").style.width = "0%";
-    updateLog("Inizi la meditazione...");
 
-    const interval = setInterval(() => {
-        focusProgress += focusSpeed;
+    focusInterval = setInterval(() => {
+        focusProgress += 2;
         if (focusProgress >= 100) {
+            clearInterval(focusInterval);
             focusProgress = 100;
-            clearInterval(interval);
-            isFocusing = false;
-
-            // Calcolo frammenti
-            const gained = Math.floor(Math.random() * (maxFragments - minFragments + 1)) + minFragments;
-            updateSoulFragments(gained);
-            updateLog(`Hai ottenuto ${gained} frammenti!`);
+            gainFragments();
+            focusActive = false;
+            focusProgress = 0;
         }
-        document.getElementById("focusProgress").style.width = `${focusProgress}%`;
-    }, 1000);
+        updateFocusBar();
+    }, 100);
 }
 
-function updateLog(message) {
+// Aggiorna barra focus
+function updateFocusBar() {
+    document.getElementById("focusBar").style.width = `${focusProgress}%`;
+}
+
+// Ottieni frammenti
+function gainFragments() {
+    const min = upgrades.minFragments.value;
+    const max = upgrades.maxFragments.value;
+    let gained = Math.floor(Math.random() * (max - min + 1)) + min;
+
+    // Controllo doppio gacha
+    if (Math.random() * 100 < upgrades.doubleGachaChance.value) {
+        gained *= 2;
+    }
+
+    fragments += gained;
+    logMessage(`Hai ottenuto ${gained} frammenti!`);
+    updateUI();
+}
+
+// Compra upgrade
+function buyUpgrade(type) {
+    const upgrade = upgrades[type];
+    const cost = getUpgradeCost(type);
+
+    if (fragments >= cost) {
+        fragments -= cost;
+        upgrade.level++;
+
+        if (type === "minFragments") upgrade.value++;
+        if (type === "maxFragments") upgrade.value++;
+        if (type === "doubleGachaChance") upgrade.value += 5;
+
+        logMessage(`Hai comprato l'upgrade: ${type} (livello ${upgrade.level})`);
+        updateUI();
+    } else {
+        logMessage("Frammenti insufficienti!");
+    }
+}
+
+// Calcolo costo dinamico
+function getUpgradeCost(type) {
+    const upgrade = upgrades[type];
+    return upgrade.baseCost * Math.pow(1.5, upgrade.level);
+}
+
+// Aggiorna UI
+function updateUI() {
+    document.getElementById("fragmentsCount").textContent = fragments;
+
+    // Aggiorna probabilità gacha (dinamico!)
+    const min = upgrades.minFragments.value;
+    const max = upgrades.maxFragments.value;
+    document.getElementById("probabilitiesText").textContent = `${min}-${max} frammenti`;
+    document.getElementById("doubleChance").textContent = `${upgrades.doubleGachaChance.value}%`;
+
+    // Aggiorna i pulsanti upgrade con costo
+    for (let key in upgrades) {
+        const button = document.getElementById(`${key}Upgrade`);
+        if (button) {
+            button.textContent = `Compra (${getUpgradeCost(key).toFixed(0)} frammenti)`;
+        }
+    }
+}
+
+// Log
+function logMessage(msg) {
     const log = document.getElementById("log");
-    const entry = document.createElement("div");
-    entry.textContent = message;
-    log.prepend(entry);
+    if (!log) return;
+    const p = document.createElement("p");
+    p.textContent = msg;
+    log.prepend(p);
 }
