@@ -8,16 +8,31 @@ document.addEventListener("DOMContentLoaded", () => {
             .then(html => {
                 mainContent.innerHTML = html;
 
-                // Pulsante Focus solo se esiste nella sezione
+                // Pulsante Focus solo se presente
                 const focusButton = document.getElementById('focusButton');
                 if (focusButton) {
                     focusButton.addEventListener('click', () => {
-                        const gained = window.performGacha();
-                        window.soulFragments += gained;
-                        window.updateResourceCount();
-                        window.updateLog(`Hai ottenuto ${gained} Soul Fragments! Totale: ${window.soulFragments}`);
+                        window.performGacha();
                     });
                 }
+
+                // Pulsanti acquisto upgrade se presente
+                const buyButtons = document.querySelectorAll('.buy-upgrade');
+                buyButtons.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const upgrade = btn.dataset.upgrade;
+                        const cost = parseInt(btn.previousElementSibling.querySelector('.upgrade-cost').textContent);
+                        if (window.soulFragments >= cost) {
+                            window.soulFragments -= cost;
+                            window.updateResourceCount();
+                            applyUpgrade(upgrade);
+                            window.updateLog(`Hai acquistato l'upgrade: ${upgrade}`);
+                            btn.disabled = true;
+                        } else {
+                            window.updateLog(`Non hai abbastanza Soul Fragments per ${upgrade}`);
+                        }
+                    });
+                });
             })
             .catch(err => console.error(err));
     }
