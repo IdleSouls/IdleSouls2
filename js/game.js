@@ -196,17 +196,23 @@ window.renderUpgrades = function() {
         const item = document.createElement('div');
         item.className = 'upgradeItem';
 
-        // Testo + costo
+        // Testo upgrade
         const textDiv = document.createElement('div');
         textDiv.className = 'upgradeText';
-        textDiv.innerHTML = `${upg.name}<br><span class="upgradeCost">${upg.level >= upg.limit ? 'MAX' : 'Costo: ' + Math.floor(upg.baseCost * Math.pow(upg.costMultiplier, upg.level)) + ' SF'}</span>`;
+        textDiv.textContent = upg.name;
 
-        // Pulsante blu come Focus
+        // Pulsante compra + costo
         const btn = document.createElement('button');
         btn.className = 'upgradeButton';
-        btn.textContent = 'Compra';
+        btn.textContent = upg.level >= upg.limit 
+            ? 'MAX' 
+            : `Compra - Costo: ${Math.floor(upg.baseCost * Math.pow(upg.costMultiplier, upg.level))} SF`;
+
         btn.disabled = upg.level >= upg.limit || window.soulFragments < Math.floor(upg.baseCost * Math.pow(upg.costMultiplier, upg.level));
-        btn.addEventListener('click', () => window.applyUpgrade(upg.id));
+
+        btn.addEventListener('click', () => {
+            window.applyUpgrade(upg.id);
+        });
 
         item.appendChild(textDiv);
         item.appendChild(btn);
