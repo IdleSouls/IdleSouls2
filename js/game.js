@@ -6,12 +6,14 @@ let minFragments = 0;
 let maxFragments = 3;
 
 let focusProgress = 0;
-let focusSpeed = 1; // Percentuale al frame
-window.focusState = { filling: false, draining: false };
+let focusSpeed = 1; // % al secondo
+let isFocusing = false;
 
-// =======================
-// Upgrade
-// =======================
+window.focusState = {
+    filling: false,
+    draining: false
+};
+
 let upgrades = [
     {
         id: "maxFragment",
@@ -60,21 +62,28 @@ let upgrades = [
 ];
 
 // =======================
-// Funzioni di base
+// Funzioni
 // =======================
-function updateSoulFragments(amount = 0) {
+function updateSoulFragments(amount) {
     soulFragments += amount;
-    const count = document.getElementById("soulFragments");
-    if (count) count.textContent = soulFragments;
-    updateUpgradeUI();
+    const rc = document.getElementById("soulFragments");
+    if (rc) rc.textContent = soulFragments;
 }
 
 function updateUpgradeUI() {
     upgrades.forEach(upg => {
         const btn = document.getElementById(`buy-${upg.id}`);
         const costSpan = document.getElementById(`cost-${upg.id}`);
-        if (btn) btn.disabled = soulFragments < upg.cost || upg.level >= upg.limit;
-        if (costSpan) costSpan.textContent = upg.level >= upg.limit ? "MAX" : `${upg.cost} SF`;
+        if (btn) {
+            btn.disabled = soulFragments < upg.cost || upg.level >= upg.limit;
+        }
+        if (costSpan) {
+            if (upg.level >= upg.limit) {
+                costSpan.textContent = "MAX";
+            } else {
+                costSpan.textContent = `${upg.cost} SF`;
+            }
+        }
     });
 }
 
@@ -82,35 +91,37 @@ function buyUpgrade(id) {
     const upg = upgrades.find(u => u.id === id);
     if (!upg || soulFragments < upg.cost || upg.level >= upg.limit) return;
 
-    // Sottrai frammenti
     soulFragments -= upg.cost;
     upg.level++;
 
-    // Applica effetti
-    if (id === "maxFragment") maxFragments += upg.increment;
-    else if (id === "minFragment" && minFragments + upg.increment <= maxFragments) minFragments += upg.increment;
-    else if (id === "doubleChance") {} // da implementare
-    else if (id === "focusSpeed") focusSpeed += upg.increment;
+    if (id === "maxFragment") {
+        maxFragments += upg.increment;
+    } else if (id === "minFragment") {
+        if (minFragments + upg.increment <= maxFragments) {
+            minFragments += upg.increment;
+        }
+    } else if (id === "doubleChance") {
+        // futuro
+    } else if (id === "focusSpeed") {
+        focusSpeed += upg.increment;
+    }
 
-    // Aggiorna costo
     upg.cost = Math.floor(upg.baseCost * Math.pow(upg.costMultiplier, upg.level));
-
-    // Log
     updateLog(`Hai acquistato "${upg.name}" (Livello ${upg.level})! Prossimo costo: ${upg.cost} SF`);
 
-    // Aggiorna UI
     updateSoulFragments(0);
+    updateUpgradeUI();
 }
 
 // =======================
-// Loop Focus / Meditazione
+// Focus Loop
 // =======================
-function meditateLoop() {
-    const focusBar = document.getElementById("focusBar");
-    if (!focusBar) return;
+window.focusLoop = function() {
+    const bar = document.getElementById("focusBar");
+    if (!bar) return; // se non esiste, ferma
 
     if (window.focusState.filling && !window.focusState.draining) {
-        focusProgress += focusSpeed * 0.1;
+        focusProgress += focusSpeed * 0.5; // moltiplica per delta time se vuoi più fine
         if (focusProgress >= 100) {
             focusProgress = 100;
             window.focusState.filling = false;
@@ -122,16 +133,14 @@ function meditateLoop() {
             updateLog(`Hai ottenuto ${gained} frammenti!`);
         }
     } else if (window.focusState.draining) {
-        focusProgress -= focusSpeed * 0.05; // svuotamento lento
+        focusProgress -= 0.5; // velocità di svuotamento
         if (focusProgress <= 0) {
             focusProgress = 0;
             window.focusState.draining = false;
         }
     }
 
-    focusBar.style.width = `${focusProgress}%`;
-    requestAnimationFrame(meditateLoop);
-}
+    bar.style.width = `${focusProgress}%`;
 
-// Avvia il loop appena il file viene caricato
-requestAnimationFrame(meditateLoop);
+    requestAnimationFrame(window.focusLoop);
+};
