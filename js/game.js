@@ -1,20 +1,86 @@
-// Stato globale dei Soul Fragments
-window.soulFragments = 0;
-
-// Aggiorna il contatore delle risorse
-window.updateResourceCount = function() {
-    const resourceCount = document.getElementById('resourceCount');
-    if (!resourceCount) return;
-    resourceCount.textContent = 'Soul Fragments: ' + window.soulFragments;
-
-    // Aggiorna immagine se disponibile
-    if (typeof window.updateFragmentImage === 'function') {
-        window.updateFragmentImage(window.soulFragments);
-    }
+// Upgrade globali
+window.upgrades = {
+    minFragments: 0,
+    maxFragments: 0,
+    doubleFocus: 0,
+    fillSpeed: 0,
+    drainSpeed: 0
 };
 
-// Aggiunge Soul Fragments e aggiorna contatore + log
-window.addSoulFragments = function(amount) {
-    window.soulFragments += amount;
+// Stato Focus Bar
+window.focusState = {
+    filling: false,
+    draining: false,
+    progress: 0
+};
+
+// Funzione Gacha aggiornata
+window.performGacha = function() {
+    const minF = 0 + window.upgrades.minFragments;
+    const maxF = 3 + window.upgrades.maxFragments;
+    let roll = Math.floor(Math.random() * (maxF - minF + 1)) + minF;
+
+    if (window.upgrades.doubleFocus > 0 && Math.random() < 0.01 * window.upgrades.doubleFocus) {
+        roll *= 2;
+    }
+
+    window.soulFragments += roll;
     window.updateResourceCount();
+    window.updateLog(`Hai ottenuto ${roll} Soul Fragments! Totale: ${window.soulFragments}`);
+    window.updateProbabilitiesUI();
+    return roll;
+};
+
+// Barra Focus
+window.updateFocusBarUI = function() {
+    const bar = document.getElementById('focusBar');
+    if (!bar) return;
+    bar.style.width = window.focusState.progress + '%';
+};
+
+// Tick barra (riempimento e svuotamento)
+window.focusTick = function() {
+    const fillSpeed = 0.5 + window.upgrades.fillSpeed;
+    const drainSpeed = 0.2 + window.upgrades.drainSpeed;
+
+    if (window.focusState.filling) {
+        window.focusState.progress += fillSpeed;
+        if (window.focusState.progress >= 100) {
+            window.focusState.progress = 100;
+            window.focusState.filling = false;
+            window.performGacha();
+            window.focusState.draining = true;
+        }
+    } else if (window.focusState.draining) {
+        window.focusState.progress -= drainSpeed;
+        if (window.focusState.progress <= 0) {
+            window.focusState.progress = 0;
+            window.focusState.draining = false;
+        }
+    }
+
+    window.updateFocusBarUI();
+};
+
+setInterval(window.focusTick, 20);
+
+// Aggiorna probabilità Gacha dinamica
+window.updateProbabilitiesUI = function() {
+    const probText = document.getElementById('probabilitiesText');
+    const doubleElem = document.getElementById('doubleChance');
+    if (!probText || !doubleElem) return;
+
+    const minF = 0 + window.upgrades.minFragments;
+    const maxF = 3 + window.upgrades.maxFragments;
+
+    probText.textContent = `${minF} - ${maxF} Soul Fragments`;
+    doubleElem.textContent = `${window.upgrades.doubleFocus}%`;
+};
+
+// Applica upgrade e log
+window.applyUpgrade = function(type, value, name) {
+    if (window.upgrades[type] === undefined) return;
+    window.upgrades[type] += value;
+    window.updateProbabilitiesUI();
+    window.updateLog(`Upgrade acquistato: ${name}`);
 };
