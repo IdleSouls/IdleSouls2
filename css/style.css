@@ -159,7 +159,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #1a73e8;
+  background-color: #1a73e8;   /* blu come i vecchi upgrade */
   padding: 10px 15px;
   border-radius: 5px;
   color: white;
@@ -168,7 +168,7 @@ body {
 }
 
 .upgradeItem:hover {
-  background-color: #0d5db6;
+  background-color: #0d5db6;  /* hover blu scuro */
 }
 
 .upgradeText {
@@ -177,9 +177,9 @@ body {
 
 /* Pulsanti upgrade */
 .upgradeButton {
-  background-color: #ffd700;
+  background-color: #ffd700;  /* giallo */
   border: none;
-  color: #0d1b2a;
+  color: #0d1b2a;             /* testo scuro */
   font-weight: bold;
   padding: 6px 12px;
   border-radius: 5px;
@@ -188,7 +188,7 @@ body {
 }
 
 .upgradeButton:hover {
-  background-color: #e5c100;
+  background-color: #e5c100;  /* hover giallo scuro */
 }
 
 /* Meditation container */
