@@ -8,14 +8,16 @@ window.updateLog = function(message, type = "info") {
     entry.textContent = message;
     entry.classList.add("log-" + type);
 
-    // Aggiunge in fondo invece che in cima
+    // Aggiunge in fondo
     logContainer.appendChild(entry);
 
     // Limita a massimo 20 entry
     const items = logContainer.getElementsByTagName('div');
-    if (items.length > 20) logContainer.removeChild(items[0]);
+    if (items.length > 20) {
+        logContainer.removeChild(items[0]); // rimuove la più vecchia
+    }
 
-    // Scroll automatico in basso
+    // Scroll automatico in fondo
     logContainer.scrollTop = logContainer.scrollHeight;
 };
 
