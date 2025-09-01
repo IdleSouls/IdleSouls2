@@ -6,8 +6,9 @@ let minFragments = 0;
 let maxFragments = 3;
 
 let focusProgress = 0;
-let focusSpeed = 1; // % al secondo
+let focusSpeed = 0.5; // % al frame, sarà scalato in requestAnimationFrame
 let isFocusing = false;
+let isDraining = false;
 
 let upgrades = [
     {
@@ -59,26 +60,19 @@ let upgrades = [
 // =======================
 // Funzioni
 // =======================
-
 function updateSoulFragments(amount) {
     soulFragments += amount;
-    document.getElementById("soulFragments").textContent = soulFragments;
+    const res = document.getElementById("soulFragments");
+    if(res) res.textContent = soulFragments;
+    updateUpgradeUI();
 }
 
 function updateUpgradeUI() {
     upgrades.forEach(upg => {
         const btn = document.getElementById(`buy-${upg.id}`);
         const costSpan = document.getElementById(`cost-${upg.id}`);
-        if (btn) {
-            btn.disabled = soulFragments < upg.cost || upg.level >= upg.limit;
-        }
-        if (costSpan) {
-            if (upg.level >= upg.limit) {
-                costSpan.textContent = "MAX";
-            } else {
-                costSpan.textContent = `${upg.cost} SF`;
-            }
-        }
+        if (btn) btn.disabled = soulFragments < upg.cost || upg.level >= upg.limit;
+        if (costSpan) costSpan.textContent = upg.level >= upg.limit ? "MAX" : `${upg.cost} SF`;
     });
 }
 
@@ -86,60 +80,64 @@ function buyUpgrade(id) {
     const upg = upgrades.find(u => u.id === id);
     if (!upg || soulFragments < upg.cost || upg.level >= upg.limit) return;
 
-    // Sottrai frammenti
     soulFragments -= upg.cost;
     upg.level++;
 
-    // Applica effetti
-    if (id === "maxFragment") {
-        maxFragments += upg.increment;
-    } else if (id === "minFragment") {
-        if (minFragments + upg.increment <= maxFragments) {
-            minFragments += upg.increment;
-        }
-    } else if (id === "doubleChance") {
-        // da implementare in futuro
-    } else if (id === "focusSpeed") {
-        focusSpeed += upg.increment;
-    }
+    if (id === "maxFragment") maxFragments += upg.increment;
+    else if (id === "minFragment" && minFragments + upg.increment <= maxFragments) minFragments += upg.increment;
+    else if (id === "focusSpeed") focusSpeed += upg.increment;
 
-    // Aggiorna costo
     upg.cost = Math.floor(upg.baseCost * Math.pow(upg.costMultiplier, upg.level));
 
-    // Log
-    updateLog(`Hai acquistato "${upg.name}" (Livello ${upg.level})! Prossimo costo: ${upg.cost} SF`);
+    window.updateLog(`Hai acquistato "${upg.name}" (Livello ${upg.level})! Prossimo costo: ${upg.cost} SF`, "upgrade");
 
-    // Aggiorna UI
     updateSoulFragments(0);
     updateUpgradeUI();
 }
 
-function meditate() {
-    if (isFocusing) return;
-    isFocusing = true;
-    focusProgress = 0;
-    document.getElementById("focusProgress").style.width = "0%";
-    updateLog("Inizi la meditazione...");
+// =======================
+// Focus Bar Logica
+// =======================
+const focusBar = document.getElementById("focusBar");
+let filling = false;
+let draining = false;
 
-    const interval = setInterval(() => {
+function focusLoop() {
+    if (!focusBar) return;
+
+    if (filling && !draining) {
         focusProgress += focusSpeed;
         if (focusProgress >= 100) {
             focusProgress = 100;
-            clearInterval(interval);
-            isFocusing = false;
-
-            // Calcolo frammenti
+            // Gacha
             const gained = Math.floor(Math.random() * (maxFragments - minFragments + 1)) + minFragments;
             updateSoulFragments(gained);
-            updateLog(`Hai ottenuto ${gained} frammenti!`);
+            window.updateLog(`Hai ottenuto ${gained} frammenti!`, "gacha");
+
+            // Inizia svuotamento
+            draining = true;
+            filling = false;
         }
-        document.getElementById("focusProgress").style.width = `${focusProgress}%`;
-    }, 1000);
+    } else if (draining) {
+        focusProgress -= 0.5; // velocità di svuotamento
+        if (focusProgress <= 0) {
+            focusProgress = 0;
+            draining = false;
+        }
+    }
+
+    focusBar.style.width = `${focusProgress}%`;
+    requestAnimationFrame(focusLoop);
 }
 
-function updateLog(message) {
-    const log = document.getElementById("log");
-    const entry = document.createElement("div");
-    entry.textContent = message;
-    log.prepend(entry);
-}
+requestAnimationFrame(focusLoop);
+
+// Funzione upgrade già presente
+window.applyUpgrade = buyUpgrade;
+
+// Aggiorna probabilità Gacha (da implementare in probabilità dinamica)
+window.updateProbabilitiesUI = function() {
+    const probText = document.getElementById("probabilitiesText");
+    if (!probText) return;
+    probText.textContent = `Range: ${minFragments} - ${maxFragments} frammenti`;
+};
