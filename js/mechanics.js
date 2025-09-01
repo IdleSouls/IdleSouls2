@@ -38,6 +38,7 @@ window.updateFocusBarUI = function() {
     bar.style.width = window.focusState.progress + '%';
 };
 
+// Tick barra (riempimento e svuotamento)
 window.focusTick = function() {
     const fillSpeed = 0.5 + window.upgrades.fillSpeed;
     const drainSpeed = 0.2 + window.upgrades.drainSpeed;
@@ -76,15 +77,10 @@ window.updateProbabilitiesUI = function() {
     doubleElem.textContent = `${window.upgrades.doubleFocus}%`;
 };
 
-// Funzione per applicare upgrade
-window.applyUpgrade = function(upgrade) {
-    switch(upgrade.type) {
-        case 'minFragments': window.upgrades.minFragments += upgrade.value; break;
-        case 'maxFragments': window.upgrades.maxFragments += upgrade.value; break;
-        case 'doubleFocus': window.upgrades.doubleFocus += upgrade.value; break;
-        case 'fillSpeed': window.upgrades.fillSpeed += upgrade.value; break;
-        case 'drainSpeed': window.upgrades.drainSpeed += upgrade.value; break;
-    }
+// Applica upgrade e log
+window.applyUpgrade = function(type, value, name) {
+    if (window.upgrades[type] === undefined) return;
+    window.upgrades[type] += value;
     window.updateProbabilitiesUI();
-    window.updateLog(`Upgrade acquistato: ${upgrade.name}`);
+    window.updateLog(`Upgrade acquistato: ${name}`);
 };
