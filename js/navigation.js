@@ -8,28 +8,20 @@ document.addEventListener("DOMContentLoaded", () => {
             .then(html => {
                 mainContent.innerHTML = html;
 
-                // Meditation
+                // Sezione meditation
                 const focusButton = document.getElementById('focusButton');
                 if (focusButton) {
                     focusButton.addEventListener('mousedown', () => {
-                        if (!window.focusState.draining && !window.focusState.filling) {
-                            window.focusState.filling = true;
-                        }
+                        if (!window.focusState.draining && !window.focusState.filling) window.focusState.filling = true;
                     });
                     focusButton.addEventListener('mouseup', () => { window.focusState.filling = false; });
                     focusButton.addEventListener('mouseleave', () => { window.focusState.filling = false; });
                 }
 
-                // Upgrades
-                const upgradeButtons = document.querySelectorAll('.upgradeButton');
-                upgradeButtons.forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        const type = btn.dataset.type;
-                        const value = parseFloat(btn.dataset.value);
-                        const name = btn.parentElement.querySelector('span').textContent;
-                        window.applyUpgrade(type, value, name);
-                    });
-                });
+                // Sezione upgrades
+                if (typeof window.renderUpgrades === 'function') {
+                    window.renderUpgrades();
+                }
 
                 window.updateProbabilitiesUI();
             })
@@ -38,5 +30,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
     buttons.forEach(btn => btn.addEventListener("click", () => loadSection(btn.dataset.section)));
 
-    loadSection("meditation");
+    loadSection("meditation"); // sezione iniziale
 });
