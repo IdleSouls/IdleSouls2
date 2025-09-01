@@ -13,7 +13,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (focusButton) {
                     focusButton.addEventListener('click', () => {
                         window.performGacha();
-                        window.updateProbabilitiesUI();
                     });
                 }
 
@@ -29,7 +28,6 @@ document.addEventListener("DOMContentLoaded", () => {
                             window.updateResourceCount();
                             window.applyUpgrade(upgrade);
                             window.updateLog(`Hai acquistato l'upgrade: ${upgrade} (Livello ${window.upgrades[upgrade]})`);
-                            // non disabilitare più il pulsante, permette acquisti multipli
                         } else {
                             window.updateLog(`Non hai abbastanza Soul Fragments per ${upgrade}`);
                         }
