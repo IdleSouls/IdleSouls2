@@ -216,10 +216,7 @@ body {
   height: 90px; /* Altezza predefinita (per 3 entry) */
 }
 
-/* Resizer log */
 #log-resizer {
-  width: 100%;
-  height: 10px;
-  background-color: #ffd700;
-  cursor: ns-resize;
+  display: none; /* oppure background-color: transparent; */
 }
+
