@@ -8,15 +8,16 @@ document.addEventListener("DOMContentLoaded", () => {
             .then(html => {
                 mainContent.innerHTML = html;
 
-                // Sezione Meditation: aggiunge listener al Focus
+                // Sezione Meditation: listener Focus
                 const focusButton = document.getElementById('focusButton');
                 if (focusButton) {
                     focusButton.addEventListener('click', () => {
                         window.performGacha();
+                        window.updateProbabilitiesUI();
                     });
                 }
 
-                // Sezione Upgrades: aggiunge listener ai pulsanti acquisto
+                // Sezione Upgrades: listener acquisto
                 const buyButtons = document.querySelectorAll('.buy-upgrade');
                 buyButtons.forEach(btn => {
                     btn.addEventListener('click', () => {
@@ -27,14 +28,16 @@ document.addEventListener("DOMContentLoaded", () => {
                             window.soulFragments -= cost;
                             window.updateResourceCount();
                             window.applyUpgrade(upgrade);
-                            window.updateLog(`Hai acquistato l'upgrade: ${upgrade}`);
-                            btn.disabled = true;
-                            btn.textContent = "Acquistato";
+                            window.updateLog(`Hai acquistato l'upgrade: ${upgrade} (Livello ${window.upgrades[upgrade]})`);
+                            // non disabilitare più il pulsante, permette acquisti multipli
                         } else {
                             window.updateLog(`Non hai abbastanza Soul Fragments per ${upgrade}`);
                         }
                     });
                 });
+
+                // Aggiorna probabilità se Meditation
+                window.updateProbabilitiesUI();
             })
             .catch(err => console.error(err));
     }
