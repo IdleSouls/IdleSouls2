@@ -157,29 +157,38 @@ body {
 /* Singolo upgrade */
 .upgradeItem {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* testo a sinistra, pulsante a destra */
   align-items: center;
-  background-color: #1a73e8;   /* blu come i vecchi upgrade */
+  background-color: #1a73e8;
   padding: 10px 15px;
   border-radius: 5px;
   color: white;
   cursor: pointer;
   transition: background-color 0.2s;
+  width: 100%;                  /* occupa tutta la larghezza del container */
+  box-sizing: border-box;       /* include padding nella larghezza */
 }
 
 .upgradeItem:hover {
-  background-color: #0d5db6;  /* hover blu scuro */
+  background-color: #0d5db6;
 }
 
+/* Testo upgrade */
 .upgradeText {
   font-size: 1.2em;
+  flex-grow: 1;                 /* il testo occupa tutto lo spazio disponibile */
+  margin-right: 10px;           /* distanza minima dal pulsante */
+  white-space: nowrap;           /* evita che vada a capo */
+  overflow: hidden;             /* taglia eventuale testo troppo lungo */
+  text-overflow: ellipsis;      /* aggiunge “…” se tagliato */
 }
 
-/* Pulsanti upgrade */
+/* Pulsante upgrade */
 .upgradeButton {
-  background-color: #ffd700;  /* giallo */
+  flex-shrink: 0;               /* non ridurre il pulsante */
+  background-color: #ffd700;
   border: none;
-  color: #0d1b2a;             /* testo scuro */
+  color: #0d1b2a;
   font-weight: bold;
   padding: 6px 12px;
   border-radius: 5px;
@@ -188,7 +197,7 @@ body {
 }
 
 .upgradeButton:hover {
-  background-color: #e5c100;  /* hover giallo scuro */
+  background-color: #e5c100;
 }
 
 /* Meditation container */
