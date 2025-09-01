@@ -1,30 +1,72 @@
 // =======================
-// Variabili di gioco
+// Variabili di Gioco
 // =======================
 let soulFragments = 0;
 let minFragments = 0;
 let maxFragments = 3;
 
 let focusProgress = 0;
-let focusSpeed = 1; // % al secondo
-let isFocusing = false;
-let isDraining = false;
+let focusSpeed = 1; // Percentuale al frame
+window.focusState = { filling: false, draining: false };
 
+// =======================
+// Upgrade
+// =======================
 let upgrades = [
-    { id: "maxFragment", name: "Frammenti Massimi", description: "Aumenta i frammenti massimi ottenibili", baseCost: 10, cost: 10, costMultiplier: 1.5, increment: 1, level: 0, limit: 20 },
-    { id: "minFragment", name: "Frammenti Minimi", description: "Aumenta i frammenti minimi ottenibili", baseCost: 20, cost: 20, costMultiplier: 1.5, increment: 1, level: 0, limit: 20 },
-    { id: "doubleChance", name: "Probabilità Doppio Gacha", description: "Aumenta la probabilità di ottenere un doppio gacha", baseCost: 50, cost: 50, costMultiplier: 2, increment: 1, level: 0, limit: 50 },
-    { id: "focusSpeed", name: "Velocità Focus", description: "Aumenta la velocità di caricamento della barra focus", baseCost: 40, cost: 40, costMultiplier: 1.8, increment: 5, level: 0, limit: 100 }
+    {
+        id: "maxFragment",
+        name: "Frammenti Massimi",
+        description: "Aumenta i frammenti massimi ottenibili",
+        baseCost: 10,
+        cost: 10,
+        costMultiplier: 1.5,
+        increment: 1,
+        level: 0,
+        limit: 20
+    },
+    {
+        id: "minFragment",
+        name: "Frammenti Minimi",
+        description: "Aumenta i frammenti minimi ottenibili",
+        baseCost: 20,
+        cost: 20,
+        costMultiplier: 1.5,
+        increment: 1,
+        level: 0,
+        limit: 20
+    },
+    {
+        id: "doubleChance",
+        name: "Probabilità Doppio Gacha",
+        description: "Aumenta la probabilità di ottenere un doppio gacha",
+        baseCost: 50,
+        cost: 50,
+        costMultiplier: 2,
+        increment: 1,
+        level: 0,
+        limit: 50
+    },
+    {
+        id: "focusSpeed",
+        name: "Velocità Focus",
+        description: "Aumenta la velocità di caricamento della barra focus",
+        baseCost: 40,
+        cost: 40,
+        costMultiplier: 1.8,
+        increment: 5,
+        level: 0,
+        limit: 100
+    }
 ];
 
 // =======================
-// Funzioni
+// Funzioni di base
 // =======================
-function updateSoulFragments(amount) {
+function updateSoulFragments(amount = 0) {
     soulFragments += amount;
-    document.getElementById("resourceCount").textContent = "Soul Fragments: " + soulFragments;
+    const count = document.getElementById("soulFragments");
+    if (count) count.textContent = soulFragments;
     updateUpgradeUI();
-    updateProbabilitiesUI();
 }
 
 function updateUpgradeUI() {
@@ -40,49 +82,50 @@ function buyUpgrade(id) {
     const upg = upgrades.find(u => u.id === id);
     if (!upg || soulFragments < upg.cost || upg.level >= upg.limit) return;
 
+    // Sottrai frammenti
     soulFragments -= upg.cost;
     upg.level++;
 
     // Applica effetti
     if (id === "maxFragment") maxFragments += upg.increment;
-    if (id === "minFragment" && minFragments + upg.increment <= maxFragments) minFragments += upg.increment;
-    if (id === "doubleChance") { /* da implementare */ }
-    if (id === "focusSpeed") focusSpeed += upg.increment;
+    else if (id === "minFragment" && minFragments + upg.increment <= maxFragments) minFragments += upg.increment;
+    else if (id === "doubleChance") {} // da implementare
+    else if (id === "focusSpeed") focusSpeed += upg.increment;
 
+    // Aggiorna costo
     upg.cost = Math.floor(upg.baseCost * Math.pow(upg.costMultiplier, upg.level));
 
+    // Log
     updateLog(`Hai acquistato "${upg.name}" (Livello ${upg.level})! Prossimo costo: ${upg.cost} SF`);
+
+    // Aggiorna UI
     updateSoulFragments(0);
 }
 
-function updateProbabilitiesUI() {
-    const text = document.getElementById("probabilitiesText");
-    if (text) text.textContent = `${minFragments} - ${maxFragments} frammenti`;
-}
-
+// =======================
+// Loop Focus / Meditazione
+// =======================
 function meditateLoop() {
     const focusBar = document.getElementById("focusBar");
     if (!focusBar) return;
 
-    if (window.focusState.filling && !isFocusing && !isDraining) {
-        focusProgress += focusSpeed;
+    if (window.focusState.filling && !window.focusState.draining) {
+        focusProgress += focusSpeed * 0.1;
         if (focusProgress >= 100) {
             focusProgress = 100;
-            isFocusing = true;
             window.focusState.filling = false;
-            // Lancia il gacha
+            window.focusState.draining = true;
+
+            // Calcolo frammenti
             const gained = Math.floor(Math.random() * (maxFragments - minFragments + 1)) + minFragments;
             updateSoulFragments(gained);
             updateLog(`Hai ottenuto ${gained} frammenti!`);
-            // Inizia il draining della barra
-            isDraining = true;
         }
-    } else if (isDraining) {
-        focusProgress -= focusSpeed / 2; // svuotamento più lento
+    } else if (window.focusState.draining) {
+        focusProgress -= focusSpeed * 0.05; // svuotamento lento
         if (focusProgress <= 0) {
             focusProgress = 0;
-            isDraining = false;
-            isFocusing = false;
+            window.focusState.draining = false;
         }
     }
 
@@ -90,23 +133,5 @@ function meditateLoop() {
     requestAnimationFrame(meditateLoop);
 }
 
-// =======================
-// Stato globale focus
-// =======================
-window.focusState = { filling: false, draining: false };
-
-// =======================
-// Avvio loop
-// =======================
+// Avvia il loop appena il file viene caricato
 requestAnimationFrame(meditateLoop);
-
-// =======================
-// Log
-// =======================
-function updateLog(message) {
-    const log = document.getElementById("log");
-    if (!log) return;
-    const entry = document.createElement("div");
-    entry.textContent = message;
-    log.prepend(entry);
-}
