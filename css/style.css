@@ -145,3 +145,46 @@ body {
   background-color: #ffd700;
   cursor: ns-resize;
 }
+
+/* Upgrade section */
+#upgradesContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  color: #ffd700;
+}
+
+.upgrade-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #0d1b2a;
+  border: 2px solid #ffd700;
+  border-radius: 5px;
+}
+
+.upgrade-info p {
+  margin: 4px 0;
+  font-size: 1em;
+}
+
+.buy-upgrade {
+  padding: 10px 20px;
+  font-size: 1.2em;
+  background-color: #1a73e8;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.buy-upgrade:hover {
+  background-color: #0d5db6;
+}
+
+.buy-upgrade:disabled {
+  background-color: gray;
+  cursor: not-allowed;
+}
