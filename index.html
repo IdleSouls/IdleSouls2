@@ -1,35 +1,33 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Idle Souls</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Idle Souls</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Colonna sinistra: menu -->
-  <div id="leftColumn">
+
+<div id="leftColumn">
     <h1>Idle Souls</h1>
     <div id="navMenu">
-      <button class="navButton" data-section="meditation">Meditation</button>
-      <button class="navButton" data-section="upgrades">Upgrades</button>
+        <button class="navButton" data-section="meditation">Meditation</button>
+        <button class="navButton" data-section="upgrades">Upgrades</button>
     </div>
-  </div>
+</div>
 
-  <!-- Colonna centrale: contenuto dinamico -->
-  <div id="centerColumn">
-    <div id="mainContent"></div>
-  </div>
+<div id="centerColumn">
+    <div id="mainContent">
+        <!-- Contenuto caricato dinamicamente -->
+    </div>
+</div>
 
-  <!-- Colonna destra: risorse -->
-  <div id="rightColumn">
+<div id="rightColumn">
     <div id="resourceCount">Soul Fragments: 0</div>
-  </div>
+</div>
 
-  <!-- Log -->
-  <div id="log"></div>
+<div id="log"></div>
 
-  <script src="game.js"></script>
-  <script src="navigation.js"></script>
+<script src="js/game.js"></script>
+<script src="js/navigation.js"></script>
 </body>
 </html>
