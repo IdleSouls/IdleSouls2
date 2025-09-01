@@ -8,25 +8,21 @@ document.addEventListener("DOMContentLoaded", () => {
             .then(html => {
                 mainContent.innerHTML = html;
 
-                // Meditation
-                const focusButton = document.getElementById('focusButton');
+                // Focus button events
+                const focusButton = document.getElementById("focusButton");
                 if (focusButton) {
-                    focusButton.addEventListener('mousedown', () => {
-                        if (!window.focusState.draining && !window.focusState.filling) {
-                            window.focusState.filling = true;
-                        }
-                    });
-                    focusButton.addEventListener('mouseup', () => { window.focusState.filling = false; });
-                    focusButton.addEventListener('mouseleave', () => { window.focusState.filling = false; });
+                    focusButton.addEventListener("mousedown", () => { if (!window.focusState.draining) window.focusState.filling = true; });
+                    focusButton.addEventListener("mouseup", () => { window.focusState.filling = false; });
+                    focusButton.addEventListener("mouseleave", () => { window.focusState.filling = false; });
                 }
 
                 // Upgrades
-                const upgradeButtons = document.querySelectorAll('.upgradeButton');
+                const upgradeButtons = document.querySelectorAll(".upgradeButton");
                 upgradeButtons.forEach(btn => {
-                    btn.addEventListener('click', () => {
+                    btn.addEventListener("click", () => {
                         const type = btn.dataset.type;
                         const value = parseFloat(btn.dataset.value);
-                        const name = btn.parentElement.querySelector('span').textContent;
+                        const name = btn.parentElement.querySelector(".upgradeText").textContent;
                         window.applyUpgrade(type, value, name);
                     });
                 });
@@ -37,6 +33,5 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     buttons.forEach(btn => btn.addEventListener("click", () => loadSection(btn.dataset.section)));
-
     loadSection("meditation");
 });
