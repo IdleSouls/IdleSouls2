@@ -1,37 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IdleSouls</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Idle Souls</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- Colonna sinistra: menu -->
   <div id="leftColumn">
-    <h1>IdleSouls</h1>
-    <nav id="navMenu">
+    <h1>Idle Souls</h1>
+    <div id="navMenu">
       <button class="navButton" data-section="meditation">Meditation</button>
       <button class="navButton" data-section="upgrades">Upgrades</button>
-    </nav>
+    </div>
   </div>
 
+  <!-- Colonna centrale: contenuto dinamico -->
   <div id="centerColumn">
     <div id="mainContent"></div>
   </div>
 
+  <!-- Colonna destra: risorse -->
   <div id="rightColumn">
     <div id="resourceCount">Soul Fragments: 0</div>
   </div>
 
-  <div id="log">
-    <div id="log-entries"></div>
-    <div id="log-resizer"></div>
-  </div>
+  <!-- Log -->
+  <div id="log"></div>
 
-  <!-- JS in ordine corretto -->
-  <script src="js/log.js"></script>
-  <script src="js/mechanics.js"></script>
-  <script src="js/game.js"></script>
-  <script src="js/navigation.js"></script>
+  <script src="game.js"></script>
+  <script src="navigation.js"></script>
 </body>
 </html>
