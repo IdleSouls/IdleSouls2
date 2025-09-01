@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
             .then(html => {
                 mainContent.innerHTML = html;
 
-                // Sezione Meditation
+                // Meditation
                 const focusButton = document.getElementById('focusButton');
                 if (focusButton) {
                     focusButton.addEventListener('mousedown', () => {
@@ -19,6 +19,17 @@ document.addEventListener("DOMContentLoaded", () => {
                     focusButton.addEventListener('mouseup', () => { window.focusState.filling = false; });
                     focusButton.addEventListener('mouseleave', () => { window.focusState.filling = false; });
                 }
+
+                // Upgrades
+                const upgradeButtons = document.querySelectorAll('.upgradeButton');
+                upgradeButtons.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const type = btn.dataset.type;
+                        const value = parseFloat(btn.dataset.value);
+                        const name = btn.parentElement.querySelector('span').textContent;
+                        window.applyUpgrade(type, value, name);
+                    });
+                });
 
                 window.updateProbabilitiesUI();
             })
