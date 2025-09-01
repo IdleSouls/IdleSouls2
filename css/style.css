@@ -188,3 +188,21 @@ body {
   background-color: gray;
   cursor: not-allowed;
 }
+
+/* Meditation container */
+#meditationContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  color: #ffd700;
+  text-align: center;
+}
+
+#gachaProbabilities {
+  background-color: #0d1b2a;
+  border: 2px solid #ffd700;
+  padding: 10px 20px;
+  border-radius: 5px;
+  width: 300px;
+}
