@@ -32,11 +32,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
 
                 window.updateProbabilitiesUI();
-
-                // Avvia loop Focus solo se siamo su Meditation
-                if (section === "meditation") {
-                    requestAnimationFrame(window.focusLoop);
-                }
             })
             .catch(err => console.error(err));
     }
