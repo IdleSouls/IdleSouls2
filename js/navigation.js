@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
             .then(html => {
                 mainContent.innerHTML = html;
 
-                // Sezione Meditation: barra Focus
+                // Sezione Meditation
                 const focusButton = document.getElementById('focusButton');
                 if (focusButton) {
                     focusButton.addEventListener('mousedown', () => {
@@ -16,12 +16,8 @@ document.addEventListener("DOMContentLoaded", () => {
                             window.focusState.filling = true;
                         }
                     });
-                    focusButton.addEventListener('mouseup', () => {
-                        window.focusState.filling = false;
-                    });
-                    focusButton.addEventListener('mouseleave', () => {
-                        window.focusState.filling = false;
-                    });
+                    focusButton.addEventListener('mouseup', () => { window.focusState.filling = false; });
+                    focusButton.addEventListener('mouseleave', () => { window.focusState.filling = false; });
                 }
 
                 window.updateProbabilitiesUI();
@@ -31,6 +27,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
     buttons.forEach(btn => btn.addEventListener("click", () => loadSection(btn.dataset.section)));
 
-    // Sezione iniziale
     loadSection("meditation");
 });
