@@ -147,6 +147,7 @@ window.updateProbabilitiesUI = function() {
     doubleElem.textContent = `${window.upgrades.doubleFocus}%`;
 };
 
+// Acquisto upgrade
 window.applyUpgrade = function(id) {
     const upg = window.upgradeDefinitions.find(u => u.id === id);
     if (!upg) return;
@@ -177,4 +178,38 @@ window.applyUpgrade = function(id) {
     upg.level++;
     window.updateProbabilitiesUI();
     window.updateLog(`Hai acquistato ${upg.name} (Livello ${upg.level}) - Costo: ${cost} SF`);
+
+    // Aggiorna la UI degli upgrade
+    renderUpgrades();
+};
+
+// =======================
+// Rendering upgrade dinamico
+// =======================
+window.renderUpgrades = function() {
+    const container = document.getElementById('upgradesContainer');
+    if (!container) return;
+
+    container.innerHTML = '';
+
+    window.upgradeDefinitions.forEach(upg => {
+        const item = document.createElement('div');
+        item.className = 'upgradeItem';
+
+        // Testo + costo
+        const textDiv = document.createElement('div');
+        textDiv.className = 'upgradeText';
+        textDiv.innerHTML = `${upg.name}<br><span class="upgradeCost">${upg.level >= upg.limit ? 'MAX' : 'Costo: ' + Math.floor(upg.baseCost * Math.pow(upg.costMultiplier, upg.level)) + ' SF'}</span>`;
+
+        // Pulsante blu come Focus
+        const btn = document.createElement('button');
+        btn.className = 'upgradeButton';
+        btn.textContent = 'Compra';
+        btn.disabled = upg.level >= upg.limit || window.soulFragments < Math.floor(upg.baseCost * Math.pow(upg.costMultiplier, upg.level));
+        btn.addEventListener('click', () => window.applyUpgrade(upg.id));
+
+        item.appendChild(textDiv);
+        item.appendChild(btn);
+        container.appendChild(item);
+    });
 };
